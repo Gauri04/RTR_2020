@@ -1,3 +1,6 @@
+/*
+C program to print check user entered integer value
+*/
 #include<stdio.h>
 
 int main(int argc, char *argv[])
