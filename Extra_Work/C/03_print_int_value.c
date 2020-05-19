@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	}
 	else if(x > 0)
 	{
-		if(0 == x)			// not reachable code (x > 0)
+		if(0 == x)			// code (x > 0)
 			printf("X is zero");
 		
 		printf("positive value of x : %d", x);
