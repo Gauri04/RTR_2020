@@ -1,3 +1,6 @@
+/*
+C program to check leap year
+*/
 #include<stdio.h>
 
 int main(int argc, char *argv[])

@@ -1,3 +1,6 @@
+/*
+C program to print hello wolrd using char array
+*/
 #include<stdio.h>
 
 int main(int argc, char *argv[])
