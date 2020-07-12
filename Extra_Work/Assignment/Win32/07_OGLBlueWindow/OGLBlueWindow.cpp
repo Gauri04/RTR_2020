@@ -1,6 +1,9 @@
 #include<windows.h>
-#include"GRWindow.h"
 #include<stdio.h>
+#include<GL\gl.h>
+#include"GRWindow.h"
+
+#pragma comment(lib, "opengl32.lib")
 
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
@@ -14,6 +17,8 @@ WINDOWPLACEMENT grwpPrev = { sizeof(WINDOWPLACEMENT) };
 bool grgbFullScreen = false;
 HWND grghwnd = NULL;
 bool grgbActiveWindow = false;
+HDC grghdc = NULL;
+HGLRC grghrc = NULL;
 FILE *grgpFile = NULL;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
@@ -26,7 +31,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	WNDCLASSEX wndclass;
 	HWND hwnd;
 	MSG msg;
-	TCHAR szAppName[] = TEXT("OGLPrepCode");
+	TCHAR szAppName[] = TEXT("OGLBlueWindow");
 	int grDesktopWidth, grDesktopHeight;
 	int grWndXPos, grWndYPos;
 	bool grbDone = false;
@@ -35,6 +40,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	{
 		MessageBox(NULL, TEXT("Cannot open desired file"), TEXT("Error"), MB_OK | MB_ICONERROR);
 		exit(0);
+	}
+	else
+	{
+		fprintf(grgpFile, "Log file created successfully. \n Program started successfully\n **** Logs ***** \n");
 	}
 	
 	wndclass.cbSize = sizeof(WNDCLASSEX);
@@ -70,7 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	
 	hwnd = CreateWindowEx(WS_EX_APPWINDOW,
 				szAppName,
-				TEXT("Preparatory Code for OpenGL"),
+				TEXT("OpenGL Blue window"),
 				WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
 				100,
 				100,
@@ -209,8 +218,52 @@ void Initialize()
 	void Resize(int, int);
 	
 	//variable declarations
+	PIXELFORMATDESCRIPTOR grpfd;
+	int griPixelFormatIndex;
 	
 	//code
+	grghdc = GetDC(grghwnd);
+	
+	ZeroMemory(&grpfd, sizeof(PIXELFORMATDESCRIPTOR));
+	grpfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+	grpfd.nVersion = 1;
+	grpfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+	grpfd.iPixelType = PFD_TYPE_RGBA;
+	grpfd.cColorBits = 32;
+	grpfd.cRedBits = 8;
+	grpfd.cGreenBits = 8;
+	grpfd.cBlueBits = 8;
+	grpfd.cAlphaBits = 8;
+	
+	griPixelFormatIndex = ChoosePixelFormat(grghdc, &grpfd);
+	if(griPixelFormatIndex == 0)
+	{
+		fprintf(grgpFile, "ChoosePixelFormat() failed\n");
+		DestroyWindow(grghwnd);
+	}
+	
+	if(SetPixelFormat(grghdc, griPixelFormatIndex, &grpfd) == FALSE)
+	{
+		fprintf(grgpFile, "SetPixelFormat() failed\n");
+		DestroyWindow(grghwnd);
+	}
+	
+	grghrc = wglCreateContext(grghdc);
+	if(grghrc == NULL)
+	{
+		fprintf(grgpFile, "wglCreateContext() failed\n");
+		DestroyWindow(grghwnd);
+	}
+	
+	if(wglMakeCurrent(grghdc, grghrc) == FALSE)
+	{
+		fprintf(grgpFile, "wglMakeCurrent() failed\n");
+		DestroyWindow(grghwnd);
+	}
+	
+	// set clearcolor
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	
 	// warmup call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
 }
@@ -219,17 +272,55 @@ void Resize(int width, int height)
 {
 	if(height == 0)
 		height = 1;
+	
+	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 
 void Display(void)
 {
 	// code
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	glFlush();
 }
 
 void Uninitialize(void)
 {
-	fclose(grgpFile);
-	grgpFile = NULL;
+	//code
+	if(grgbFullScreen == true)
+	{
+		grdwStyle = GetWindowLong(grghwnd, GWL_STYLE);
+		SetWindowLong(grghwnd, GWL_STYLE, (grdwStyle | WS_OVERLAPPEDWINDOW));
+		SetWindowPlacement(grghwnd, &grwpPrev);
+		SetWindowPos(grghwnd, HWND_TOP, 0, 0, 0, 0, 
+			SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_FRAMECHANGED);
+		
+		ShowCursor(true);
+		
+		if(wglGetCurrentContext() == grghrc)
+		{
+			wglMakeCurrent(NULL, NULL);
+		}
+		
+		if(grghrc)
+		{
+			wglDeleteContext(grghrc);
+			grghrc = NULL;
+		}
+		
+		if(grghdc)
+		{
+			ReleaseDC(grghwnd, grghdc);
+			grghdc = NULL;
+		}
+		
+		if(grgpFile)
+		{
+			fprintf(grgpFile, "\n **** End ****\nLog File closed successfully. \n Program terminated successfully");
+			fclose(grgpFile);
+			grgpFile = NULL;
+		}
+	}
 }
 
 
