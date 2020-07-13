@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 {
 	// Function declaration
 	void Initialize(void);
-	void Display(void);
+	//void Display(void);
 	
 	// variables declaration
 	WNDCLASSEX wndclass;
@@ -118,7 +118,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 				//update function
 				
 				//display function
-				Display();
+				//Display();
 			}
 		}
 		
@@ -133,6 +133,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	void ToggleFullScreen(void);
 	void Resize(int, int);
 	void Uninitialize(void);
+	void Display(void);
 	
 	switch(iMsg)
 	{
@@ -150,6 +151,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			
 		case WM_SIZE :
 			Resize(LOWORD(lParam), HIWORD(lParam));
+			break;
+			
+		case WM_PAINT :
+			Display();
 			break;
 			
 		case WM_KEYDOWN : 
@@ -297,29 +302,29 @@ void Uninitialize(void)
 		
 		ShowCursor(true);
 		
-		if(wglGetCurrentContext() == grghrc)
-		{
-			wglMakeCurrent(NULL, NULL);
-		}
+	}
+	if(wglGetCurrentContext() == grghrc)
+	{
+		wglMakeCurrent(NULL, NULL);
+	}
 		
-		if(grghrc)
-		{
-			wglDeleteContext(grghrc);
-			grghrc = NULL;
-		}
+	if(grghrc)
+	{
+		wglDeleteContext(grghrc);
+		grghrc = NULL;
+	}
 		
-		if(grghdc)
-		{
-			ReleaseDC(grghwnd, grghdc);
-			grghdc = NULL;
-		}
+	if(grghdc)
+	{
+		ReleaseDC(grghwnd, grghdc);
+		grghdc = NULL;
+	}
 		
-		if(grgpFile)
-		{
-			fprintf(grgpFile, "\n **** End ****\nLog File closed successfully. \n Program terminated successfully");
-			fclose(grgpFile);
-			grgpFile = NULL;
-		}
+	if(grgpFile)
+	{
+		fprintf(grgpFile, "\n **** End ****\nLog File closed successfully. \n Program terminated successfully");
+		fclose(grgpFile);
+		grgpFile = NULL;
 	}
 }
 
