@@ -1,0 +1,4 @@
+
+ In delete node, to delete middle node
+ In delete node, to delete last node
+ In delete node, to delete start node
