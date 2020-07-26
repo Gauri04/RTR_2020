@@ -1,0 +1,34 @@
+***** Logs *****
+
+ In traverse node
+ In traverse, Last is NULL. Empty linkedlist
+ In insert at beginning
+ temp : 006FF8F0
+ last : 00DF0D20
+ BEFORE temp->next : 00000000
+ BEFORE last->next : 00A73DF8
+ AFTER temp->next : 00A73DF8
+ AFTER last->next : 00A73E70
+ In traverse node
+ In Traverse, last->next : 00A73E70
+ temp : 00A73EE8
+ last : 00A73EE8
+ In traverse node
+ In Traverse, last->next : 00A73E70
+ temp : 00A73EE8
+ last : 00A73EE8
+ Deleting last node. Now last = 00A76D18
+ In traverse node
+ In Traverse, last->next : 00A73E70
+ temp : 00A76D18
+ last : 00A76D18
+ In traverse node
+ In Traverse, last->next : 00A73E70
+ temp : 00A76D18
+ last : 00A76D18
+ In traverse node
+ In Traverse, last->next : 00A76D18
+ temp : 00A76D18
+ last : 00A76D18
+ In traverse node
+ In traverse, Last is NULL. Empty linkedlist
