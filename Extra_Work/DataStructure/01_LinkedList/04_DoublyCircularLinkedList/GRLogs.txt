@@ -1,0 +1,4 @@
+**** Logs **** 
+
+ In delete node, to delete start node
+ In delete node, to delete start node

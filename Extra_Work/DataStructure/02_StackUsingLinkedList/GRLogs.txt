@@ -1,0 +1,17 @@
+**** Logs ****
+
+ In push to stack, top : 00723CC8, top->data : 20
+
+ In pop from stack, popped data : 20
+ In push to stack, top : 00723CC8, top->data : 100
+ In push to stack, top : 00723CD8, top->data : 200
+ In push to stack, top : 00723CE8, top->data : 300
+
+ In pop from stack, popped data : 300
+
+ In pop from stack, popped data : 200
+ In push to stack, top : 00723CD8, top->data : 400
+
+ In pop from stack, popped data : 400
+
+ In pop from stack, popped data : 100
