@@ -1,7 +1,7 @@
 #include<windows.h>
 #include<stdio.h>
 #include<GL\gl.h>
-#include<GL\Glu.h>
+#include<GL\Glu.h>	// graphic library utility
 #include"GRWindow.h"
 
 #pragma comment(lib, "opengl32.lib")
@@ -267,7 +267,7 @@ void Initialize()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	// warm-up call to resize
-	//Resize(WIN_WIDTH, WIN_HEIGHT);
+	Resize(WIN_WIDTH, WIN_HEIGHT);
 }
 
 void Resize(int width, int height)
@@ -279,67 +279,33 @@ void Resize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
+	
 }
 
 void Display(void)
 {
-	// function declaration
-	void WhiteColoredTriangle(void);
-	void MultiColoredTriangle(void);
-	void WhiteColoredRectangle(void);
-	
 	// code
-	//glMatrixMode(GL_MODELVIEW);
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	WhiteColoredTriangle();
-	glTranslatef(0.5f, 0.0f, 0.0f);
-	MultiColoredTriangle();
-	glTranslatef(0.0f, 0.5f, 0.0f);
-	WhiteColoredRectangle();
+	
+	glTranslatef(0.0f, 0.0f, -3.0f);
+	glBegin(GL_TRIANGLES);
+		glColor3f(0.0f, 0.0f, 1.0f); // blue color
+		glVertex3f(0.0f, 1.0f, 0.0f);
+		
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		
+		
+	glEnd();
 	SwapBuffers(grghdc);
 }
-
-void WhiteColoredTriangle(void)
-{
-	// code
-	glBegin(GL_TRIANGLES);					// by default white color is used
-		glVertex3f(0.0f, 0.1f, 0.0f);
-		
-		glVertex3f(-0.1f, -0.1f, 0.0f);
-		
-		glVertex3f(0.1f, -0.1f, 0.0f);
-		
-	glEnd();
-}
-
-void MultiColoredTriangle(void)
-{
-	// code
-	glBegin(GL_TRIANGLES);
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(0.0f, 0.1f, 0.0f);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-0.1f, -0.1f, 0.0f);
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.1f, -0.1f, 0.0f);
-		
-	glEnd();
-}
-
-void WhiteColoredRectangle(void)
-{
-	// code
-	glBegin(GL_QUADS);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(0.1f, 0.1f, 0.0f);
-		glVertex3f(-0.1f, 0.1f, 0.0f);
-		glVertex3f(-0.1f, -0.1f, 0.0f);
-		glVertex3f(0.1f, -0.1f, 0.0f);		
-	glEnd();
-}
-
 
 void Uninitialize(void)
 {

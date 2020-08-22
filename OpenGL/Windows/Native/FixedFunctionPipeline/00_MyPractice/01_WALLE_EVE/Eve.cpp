@@ -24,7 +24,7 @@ HWND grghwnd = NULL;
 bool grgbActiveWindow = false;
 HDC grghdc = NULL;
 HGLRC grghrc = NULL;
-FILE *grgpFile = NULL;
+
 
 bool grbFullScreen = false;
 const float grPI = 3.142f;

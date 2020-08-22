@@ -347,7 +347,7 @@ void Display(void)
 			glColor3f(1.0f, 1.0f, 1.0f);
 			glBegin(GL_TRIANGLE_STRIP);
 
-				for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+				for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 				{
 					glVertex3f(0.0f, 0.0f, 0.0f);
 					glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -360,7 +360,7 @@ void Display(void)
 			glColor3f(0.8f, 0.8f, 0.8f);
 			glBegin(GL_TRIANGLE_STRIP);
 
-				for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+				for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 				{
 					glVertex3f(0.0f, 0.0f, 0.0f);
 					glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -391,7 +391,7 @@ void Display(void)
 			glLineWidth(2.5);
 			glBegin(GL_LINES);
 
-				for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+				for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 				{
 					glVertex3f(0.0f, 0.0f, 0.0f);
 					glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -413,12 +413,13 @@ void Display(void)
 			glLineWidth(2.5);
 			glBegin(GL_LINES);
 
-				for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+				for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 				{
 					glVertex3f(0.0f, 0.0f, 0.0f);
 					glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
 				}
 			glEnd();
+			
 		
 			//Sun1
 			glLoadIdentity();
@@ -427,7 +428,7 @@ void Display(void)
 			glColor3f(1.0f, 1.0f, 0.0f);
 			glBegin(GL_TRIANGLE_STRIP);
 	
-				for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+				for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 				{
 					glVertex3f(0.0f, 0.0f, 0.0f);
 					glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -445,7 +446,7 @@ void Display(void)
 				glTranslatef(0.4f, 1.5f, -6.0f);
 				glScalef(0.27f, 0.27f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -456,7 +457,7 @@ void Display(void)
 				glTranslatef(0.8f, 1.5f, -6.0f);
 				glScalef(0.27f, 0.27f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -467,7 +468,7 @@ void Display(void)
 				glTranslatef(1.1f, 1.4f, -6.0f);
 				glScalef(0.25f, 0.27f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -478,7 +479,7 @@ void Display(void)
 				glTranslatef(0.75f, 1.35f, -6.0f);
 				glScalef(0.25f, 0.27f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((2.15*cos(i)), (1*sin(i)), 0.0f);
@@ -499,7 +500,7 @@ void Display(void)
 				glTranslatef(2.4f, 1.7f, -6.0f);
 				glScalef(0.23f, 0.23f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -510,7 +511,7 @@ void Display(void)
 				glTranslatef(2.7f, 1.6f, -6.0f);
 				glScalef(0.23f, 0.23f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -521,7 +522,7 @@ void Display(void)
 				glTranslatef(3.0f, 1.55f, -6.0f);
 				glScalef(0.21f, 0.21f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((1*cos(i)), (1*sin(i)), 0.0f);
@@ -532,7 +533,7 @@ void Display(void)
 				glTranslatef(2.7f, 1.53f, -6.0f);
 				glScalef(0.21f, 0.23f, 0.0f);
 				glBegin(GL_TRIANGLE_STRIP);
-					for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+					for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 					{
 						glVertex3f(0.0f, 0.0f, 0.0f);
 						glVertex3f((2.25*cos(i)), (1*sin(i)), 0.0f);
@@ -553,7 +554,7 @@ void Display(void)
 		glColor3f(0.0f, 0.2f, 0.0f);
 		glBegin(GL_TRIANGLE_STRIP);
 	
-			for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+			for(float i = 0; i <= 2*pi*1; i = i + 0.0001f)
 			{
 				glVertex3f(0.0f, 0.0f, 0.0f);
 				glVertex3f((2.5*cos(i)), (1*sin(i)), 0.0f);
@@ -567,7 +568,7 @@ void Display(void)
 		glColor3f(0.0f, 0.2f, 0.0f);
 		glBegin(GL_TRIANGLE_STRIP);
 
-			for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+			for(float i = 0; i <= 2*pi*1; i = i + 0.0001f)
 			{
 				glVertex3f(0.0f, 0.0f, 0.0f);
 				glVertex3f((4.0*cos(i)), (1*sin(i)), 0.0f);
@@ -581,7 +582,7 @@ void Display(void)
 		glColor3f(0.0f, 0.2f, 0.0f);
 		glBegin(GL_TRIANGLE_STRIP);
 
-			for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+			for(float i = 0; i <= 2*pi*1; i = i + 0.0001f)
 			{
 				glVertex3f(0.0f, 0.0f, 0.0f);
 				glVertex3f((3.0*cos(i)), (1.5*sin(i)), 0.0f);
@@ -597,7 +598,7 @@ void Display(void)
 		glScalef(0.99f, 0.99f, 0.0f);
 		glBegin(GL_TRIANGLE_STRIP);
 
-				for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+				for(float i = 0; i <= 2*pi*1; i = i + 0.0001f)
 				{
 					glVertex3f(0.0f, 0.0f, 0.0f);
 					glVertex3f((2.5*cos(i)), (1*sin(i)), 0.0f);
@@ -612,7 +613,7 @@ void Display(void)
 		glScalef(0.99f, 0.99f, 0.0f);
 		glBegin(GL_TRIANGLE_STRIP);
 	
-			for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+			for(float i = 0; i <= 2*pi*1; i = i + 0.0001f)
 			{
 				glVertex3f(0.0f, 0.0f, 0.0f);
 				glVertex3f((4.0*cos(i)), (1*sin(i)), 0.0f);
@@ -627,7 +628,7 @@ void Display(void)
 		glScalef(0.99f, 0.99f, 0.0f);
 		glBegin(GL_TRIANGLE_STRIP);
 
-			for(float i = 0; i <= 2*pi*1; i = i + 0.01f)
+			for(float i = 0; i <= 2*pi*1; i = i + 0.001f)
 			{
 				glVertex3f(0.0f, 0.0f, 0.0f);
 				glVertex3f((3.0*cos(i)), (1.5*sin(i)), 0.0f);

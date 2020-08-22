@@ -1,11 +1,11 @@
 #include<windows.h>
 #include<stdio.h>
 #include<GL\gl.h>
-#include<GL\Glu.h>
+
 #include"GRWindow.h"
 
 #pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "Glu32.lib")
+
 
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
@@ -267,7 +267,7 @@ void Initialize()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	// warm-up call to resize
-	//Resize(WIN_WIDTH, WIN_HEIGHT);
+	Resize(WIN_WIDTH, WIN_HEIGHT);
 }
 
 void Resize(int width, int height)
@@ -276,70 +276,51 @@ void Resize(int width, int height)
 		height = 1;
 	
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
+	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	if(width <= height)
+	{
+		glOrtho(-100.0f,
+				100.0f,
+				-100.0f*((GLfloat)height / (GLfloat)width),
+				100.0f*((GLfloat)height / (GLfloat)width),
+				-100.0f,
+				100.0f);
+	}
+	else
+	{
+		glOrtho(-100.0f*((GLfloat)width / (GLfloat)height),	//left
+				100.0f*((GLfloat)width / (GLfloat)height),	//right
+				-100.0f,									//bottom
+				100.0f,										//top
+				-100.0f,									//near
+				100.0f);									// far
+	}
 	
 }
 
 void Display(void)
 {
-	// function declaration
-	void WhiteColoredTriangle(void);
-	void MultiColoredTriangle(void);
-	void WhiteColoredRectangle(void);
-	
 	// code
-	//glMatrixMode(GL_MODELVIEW);
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	WhiteColoredTriangle();
-	glTranslatef(0.5f, 0.0f, 0.0f);
-	MultiColoredTriangle();
-	glTranslatef(0.0f, 0.5f, 0.0f);
-	WhiteColoredRectangle();
+	glBegin(GL_TRIANGLES);
+		glColor3f(0.0f, 0.0f, 1.0f); // blue color
+		glVertex3f(0.0f, 50.0f, 0.0f);
+		
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-50.0f, -50.0f, 0.0f);
+		
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(50.0f, -50.0f, 0.0f);
+		
+		
+	glEnd();
 	SwapBuffers(grghdc);
 }
-
-void WhiteColoredTriangle(void)
-{
-	// code
-	glBegin(GL_TRIANGLES);					// by default white color is used
-		glVertex3f(0.0f, 0.1f, 0.0f);
-		
-		glVertex3f(-0.1f, -0.1f, 0.0f);
-		
-		glVertex3f(0.1f, -0.1f, 0.0f);
-		
-	glEnd();
-}
-
-void MultiColoredTriangle(void)
-{
-	// code
-	glBegin(GL_TRIANGLES);
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(0.0f, 0.1f, 0.0f);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-0.1f, -0.1f, 0.0f);
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.1f, -0.1f, 0.0f);
-		
-	glEnd();
-}
-
-void WhiteColoredRectangle(void)
-{
-	// code
-	glBegin(GL_QUADS);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(0.1f, 0.1f, 0.0f);
-		glVertex3f(-0.1f, 0.1f, 0.0f);
-		glVertex3f(-0.1f, -0.1f, 0.0f);
-		glVertex3f(0.1f, -0.1f, 0.0f);		
-	glEnd();
-}
-
 
 void Uninitialize(void)
 {
