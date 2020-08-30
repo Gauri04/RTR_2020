@@ -33,7 +33,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	WNDCLASSEX wndclass;
 	HWND hwnd;
 	MSG msg;
-	TCHAR szAppName[] = TEXT("PerspectiveTriangle");
+	TCHAR szAppName[] = TEXT("TriangleRotation");
 	int grDesktopWidth, grDesktopHeight;
 	int grWndXPos, grWndYPos;
 	bool grbDone = false;
@@ -81,7 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	
 	hwnd = CreateWindowEx(WS_EX_APPWINDOW,
 				szAppName,
-				TEXT("OpenGL Perspective Triangle"),
+				TEXT("OpenGL Perspective Triangle Rotation"),
 				WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
 				grWndXPos,
 				grWndYPos,
@@ -306,7 +306,11 @@ void Display(void)
 		
 		
 	glEnd();
+	
 	angle = angle + 0.1f;
+	if(angle >= 360.0f)
+		angle = 0.0f;
+	
 	SwapBuffers(grghdc);
 }
 

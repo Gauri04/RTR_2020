@@ -22,18 +22,20 @@ bool grgbActiveWindow = false;
 HDC grghdc = NULL;
 HGLRC grghrc = NULL;
 FILE *grgpFile = NULL;
+GLfloat grAngle = 0.0f;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
 	// Function declaration
 	void Initialize(void);
 	void Display(void);
+	void Update(void);
 	
 	// variables declaration
 	WNDCLASSEX wndclass;
 	HWND hwnd;
 	MSG msg;
-	TCHAR szAppName[] = TEXT("PitchingRectangle");
+	TCHAR szAppName[] = TEXT("PerspectiveTriangleRotation");
 	int grDesktopWidth, grDesktopHeight;
 	int grWndXPos, grWndYPos;
 	bool grbDone = false;
@@ -81,7 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	
 	hwnd = CreateWindowEx(WS_EX_APPWINDOW,
 				szAppName,
-				TEXT("OGL Pitching Rectangle"),
+				TEXT("OpenGL Perspective Triangle Rotation Animation"),
 				WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
 				grWndXPos,
 				grWndYPos,
@@ -121,6 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 				
 				//display function
 				Display();
+				Update();
 			}
 		}
 		
@@ -284,26 +287,20 @@ void Resize(int width, int height)
 }
 
 void Display(void)
-{
-	void Update(GLfloat*);
-	
+{	
 	// code
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	
 	glTranslatef(0.0f, 0.0f, -3.0f);
-	glRotatef(grAngle, 1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
+	glRotatef(grAngle, 0.0f, 1.0f, 0.0f);
+	glBegin(GL_TRIANGLES);
 		glColor3f(0.0f, 0.0f, 1.0f); // blue color
-		glVertex3f(1.0f, 1.0f, 0.0f);
+		glVertex3f(0.0f, 1.0f, 0.0f);
 		
 		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-1.0f, 1.0f, 0.0f);
-		
-		glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 0.0f);
 		
 		glColor3f(1.0f, 0.0f, 0.0f);
@@ -311,17 +308,16 @@ void Display(void)
 		
 		
 	glEnd();
-	Update(&grAngle);
+	
 	SwapBuffers(grghdc);
 }
 
-void Update(GLfloat *angle)
+void Update(void)
 {
-	*angle = *angle + 0.1f;
-	if(*angle >= 360.0f)
-		*angle = 0.0f;
+	grAngle = grAngle + 0.1f;
+	if(grAngle >= 360.0f)
+		grAngle = 0.0f;
 }
-
 
 void Uninitialize(void)
 {
