@@ -3,6 +3,7 @@
 #include<GL\gl.h>
 #include<GL\Glu.h>	// graphic library utility
 #include"GRIcon.h"
+#include<math.h>
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "Glu32.lib")
@@ -21,14 +22,14 @@ HWND grghwnd = NULL;
 bool grgbActiveWindow = false;
 HDC grghdc = NULL;
 HGLRC grghrc = NULL;
-FILE *grgpFile = NULL;
+FILE* grgpFile = NULL;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
 	// Function declaration
 	void Initialize(void);
 	void Display(void);
-	
+
 	// variables declaration
 	WNDCLASSEX wndclass;
 	HWND hwnd;
@@ -37,8 +38,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	int grDesktopWidth, grDesktopHeight;
 	int grWndXPos, grWndYPos;
 	bool grbDone = false;
-	
-	if(fopen_s(&grgpFile, "GRLog.txt", "w") != 0)
+
+	if (fopen_s(&grgpFile, "GRLog.txt", "w") != 0)
 	{
 		MessageBox(NULL, TEXT("Cannot open desired file"), TEXT("Error"), MB_OK | MB_ICONERROR);
 		exit(0);
@@ -47,7 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	{
 		fprintf(grgpFile, "Log file created successfully. \n Program started successfully\n **** Logs ***** \n");
 	}
-	
+
 	wndclass.cbSize = sizeof(WNDCLASSEX);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wndclass.cbClsExtra = 0;
@@ -60,53 +61,53 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	wndclass.lpszClassName = szAppName;
 	wndclass.lpszMenuName = NULL;
 	wndclass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(GRICON));
-	
+
 	RegisterClassEx(&wndclass);
-	
+
 	// Get width and height of desktop screen
 	grDesktopWidth = GetSystemMetrics(SM_CXSCREEN);
 	grDesktopHeight = GetSystemMetrics(SM_CYSCREEN);
-	
+
 	// Get center horizontal point
 	grDesktopWidth = grDesktopWidth / 2;
 	// Get center vertical point
 	grDesktopHeight = grDesktopHeight / 2;
-	
+
 	// X position = center horizontal coordinate of screen - center horizontal coordinate of window
 	grWndXPos = grDesktopWidth - 400;
-	
+
 	// X position = center horizontal coordinate of screen - center horizontal coordinate of window
 	grWndYPos = grDesktopHeight - 300;
-	
-	
+
+
 	hwnd = CreateWindowEx(WS_EX_APPWINDOW,
-				szAppName,
-				TEXT("OpenGL"),
-				WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
-				grWndXPos,
-				grWndYPos,
-				WIN_WIDTH,
-				WIN_HEIGHT,
-				NULL,
-				NULL,
-				hInstance,
-				NULL);
-				
+		szAppName,
+		TEXT("OpenGL"),
+		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
+		grWndXPos,
+		grWndYPos,
+		WIN_WIDTH,
+		WIN_HEIGHT,
+		NULL,
+		NULL,
+		hInstance,
+		NULL);
+
 	grghwnd = hwnd;
-	
+
 	Initialize();
-	
+
 	ShowWindow(hwnd, iCmdShow);
-	
+
 	SetForegroundWindow(hwnd);
 	SetFocus(hwnd);
-	
-	while(grbDone == false)
+
+	while (grbDone == false)
 	{
-		if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			if(msg.message == WM_QUIT)
-			grbDone = true;
+			if (msg.message == WM_QUIT)
+				grbDone = true;
 			else
 			{
 				TranslateMessage(&msg);
@@ -115,17 +116,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 		}
 		else
 		{
-			if(grgbActiveWindow == true)
+			if (grgbActiveWindow == true)
 			{
 				//update function
-				
+
 				//display function
 				Display();
 			}
 		}
-		
+
 	}
-	
+
 	return((int)msg.wParam);
 }
 
@@ -135,70 +136,70 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	void ToggleFullScreen(void);
 	void Resize(int, int);
 	void Uninitialize(void);
-	
-	switch(iMsg)
+
+	switch (iMsg)
 	{
-		case WM_SETFOCUS : 
-			grgbActiveWindow = true;
-			break;
-			
-		case WM_KILLFOCUS :
-			grgbActiveWindow = false;
-			break;
-			
-		case WM_ERASEBKGND :
-			return(0);
-		
-			
-		case WM_SIZE :
-			Resize(LOWORD(lParam), HIWORD(lParam));
-			break;
-		
-		case WM_KEYDOWN : 
-			switch(wParam)
-			{
-				case VK_ESCAPE :
-					DestroyWindow(hwnd);
-					break;
-				
-				case 0x46 : 
-				case 0x66 :
-					ToggleFullScreen();
-					break;
-				
-				default : 
-					break;
-			}
-			break;
-			
-		case WM_CLOSE :
+	case WM_SETFOCUS:
+		grgbActiveWindow = true;
+		break;
+
+	case WM_KILLFOCUS:
+		grgbActiveWindow = false;
+		break;
+
+	case WM_ERASEBKGND:
+		return(0);
+
+
+	case WM_SIZE:
+		Resize(LOWORD(lParam), HIWORD(lParam));
+		break;
+
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_ESCAPE:
 			DestroyWindow(hwnd);
 			break;
-		
-		case WM_DESTROY :
-			Uninitialize();
-			PostQuitMessage(0);
+
+		case 0x46:
+		case 0x66:
+			ToggleFullScreen();
 			break;
-		
+
+		default:
+			break;
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwnd);
+		break;
+
+	case WM_DESTROY:
+		Uninitialize();
+		PostQuitMessage(0);
+		break;
+
 	}
-	
+
 	return(DefWindowProc(hwnd, iMsg, wParam, lParam));
 }
 
 void ToggleFullScreen()
 {
 	MONITORINFO mi = { sizeof(MONITORINFO) };
-	
-	if(grgbFullScreen == false)
+
+	if (grgbFullScreen == false)
 	{
 		grdwStyle = GetWindowLong(grghwnd, GWL_STYLE);
-		if(grdwStyle & WS_OVERLAPPEDWINDOW)
+		if (grdwStyle & WS_OVERLAPPEDWINDOW)
 		{
-			if( GetWindowPlacement(grghwnd, &grgwpPrev) && GetMonitorInfo(MonitorFromWindow(grghwnd, MONITORINFOF_PRIMARY), &mi) )
+			if (GetWindowPlacement(grghwnd, &grgwpPrev) && GetMonitorInfo(MonitorFromWindow(grghwnd, MONITORINFOF_PRIMARY), &mi))
 			{
-				SetWindowLong( grghwnd, GWL_STYLE, (grdwStyle & ~ WS_OVERLAPPEDWINDOW) );
-				SetWindowPos( grghwnd, HWND_TOP, mi.rcMonitor.left, mi.rcMonitor.top,
-					(mi.rcMonitor.right - mi.rcMonitor.left), (mi.rcMonitor.bottom - mi.rcMonitor.top), SWP_NOZORDER | SWP_FRAMECHANGED );
+				SetWindowLong(grghwnd, GWL_STYLE, (grdwStyle & ~WS_OVERLAPPEDWINDOW));
+				SetWindowPos(grghwnd, HWND_TOP, mi.rcMonitor.left, mi.rcMonitor.top,
+					(mi.rcMonitor.right - mi.rcMonitor.left), (mi.rcMonitor.bottom - mi.rcMonitor.top), SWP_NOZORDER | SWP_FRAMECHANGED);
 			}
 		}
 		ShowCursor(false);
@@ -206,7 +207,7 @@ void ToggleFullScreen()
 	}
 	else
 	{
-		SetWindowLong( grghwnd, GWL_STYLE, (grdwStyle | WS_OVERLAPPEDWINDOW) );
+		SetWindowLong(grghwnd, GWL_STYLE, (grdwStyle | WS_OVERLAPPEDWINDOW));
 		SetWindowPlacement(grghwnd, &grgwpPrev);
 		SetWindowPos(grghwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_FRAMECHANGED);
 		ShowCursor(true);
@@ -218,14 +219,14 @@ void Initialize()
 {
 	// function declaration
 	void Resize(int, int);
-	
+
 	//variable declarations
 	PIXELFORMATDESCRIPTOR grpfd;
 	int griPixelFormatIndex;
-	
+
 	//code
 	grghdc = GetDC(grghwnd);
-	
+
 	ZeroMemory(&grpfd, sizeof(PIXELFORMATDESCRIPTOR));
 	grpfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
 	grpfd.nVersion = 1;
@@ -236,109 +237,144 @@ void Initialize()
 	grpfd.cGreenBits = 8;
 	grpfd.cBlueBits = 8;
 	grpfd.cAlphaBits = 8;
-	
+
 	griPixelFormatIndex = ChoosePixelFormat(grghdc, &grpfd);
-	if(griPixelFormatIndex == 0)
+	if (griPixelFormatIndex == 0)
 	{
 		fprintf(grgpFile, "ChoosePixelFormat() failed\n");
 		DestroyWindow(grghwnd);
 	}
-	
-	if(SetPixelFormat(grghdc, griPixelFormatIndex, &grpfd) == FALSE)
+
+	if (SetPixelFormat(grghdc, griPixelFormatIndex, &grpfd) == FALSE)
 	{
 		fprintf(grgpFile, "SetPixelFormat() failed\n");
 		DestroyWindow(grghwnd);
 	}
-	
+
 	grghrc = wglCreateContext(grghdc);
-	if(grghrc == NULL)
+	if (grghrc == NULL)
 	{
 		fprintf(grgpFile, "wglCreateContext() failed\n");
 		DestroyWindow(grghwnd);
 	}
-	
-	if(wglMakeCurrent(grghdc, grghrc) == FALSE)
+
+	if (wglMakeCurrent(grghdc, grghrc) == FALSE)
 	{
 		fprintf(grgpFile, "wglMakeCurrent() failed\n");
 		DestroyWindow(grghwnd);
 	}
-	
+
 	// set clearcolor
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	
+
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
 }
 
 void Resize(int width, int height)
 {
-	if(height == 0)
+	if (height == 0)
 		height = 1;
-	
+
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	
+
 	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
-	
+
 }
 
 void Display(void)
 {
+	// local variable declaration
+	const GLfloat PI = 3.142f;
+	GLfloat a;
+	GLint i = 0;
+	GLfloat colorArray[9][3] =
+	{
+		{ 1.0f, 0.0f, 0.0f },	//R
+		{ 0.0f, 1.0f, 0.0f },	//G
+		{ 0.0f, 0.0f, 1.0f },	//B
+		{ 0.0f, 1.0f, 1.0f },	//C
+		{ 1.0f, 0.0f, 1.0f },	//M
+		{ 1.0f, 1.0f, 0.0f },	//Y
+		{ 1.0f, 1.0f, 1.0f },	//W
+		{ 0.5f, 0.5f, 0.5f },	//Gray
+		{ 1.0f, 0.5f, 0.0f }	// Orange
+	};
 	// code
-	
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
+
+	// draw 10 concentric triangles
 	glTranslatef(0.0f, 0.0f, -3.0f);
-	glBegin(GL_TRIANGLES);
-		glColor3f(0.0f, 0.0f, 1.0f); // blue color
-		glVertex3f(0.0f, 1.0f, 0.0f);
-		
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
-		
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(1.0f, -1.0f, 0.0f);
-		
-		
+	glBegin(GL_POINTS);
+		for (a = 0.1f; a <= 1.0f; a = a + 0.1f)
+		{
+			glColor3fv(colorArray[i]);
+			for (GLfloat j = 0.0f; j <= ( (2.0f/ a)* PI * a); j = j + 0.001f)
+			{
+				glVertex2d(a * (cos(j)), a * (sin(j)));
+			}
+			i++;
+		}
 	glEnd();
+
+	// last circle (outer circle) in rgb color
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -3.0f);
+	glBegin(GL_LINE_LOOP);
+		for (GLdouble j = 0.0; j <= (2.0 * PI * 1.0); j = j + 0.001)
+		{
+			if (j < ((2.0 * PI * 1.0) / 3))
+				glColor3fv(colorArray[0]);
+			else if (j > ((2.0 * PI * 1.0) / 1.5))
+				glColor3fv(colorArray[2]);
+			else if (j < ((2.0 * PI * 1.0) / 1.5))
+				glColor3fv(colorArray[1]);
+			
+			glVertex2d(1.0f * (cos(j)), 1.0f * (sin(j)));
+		}
+	glEnd();
+
 	SwapBuffers(grghdc);
 }
 
 void Uninitialize(void)
 {
 	//code
-	if(grgbFullScreen == true)
+	if (grgbFullScreen == true)
 	{
 		grdwStyle = GetWindowLong(grghwnd, GWL_STYLE);
 		SetWindowLong(grghwnd, GWL_STYLE, (grdwStyle | WS_OVERLAPPEDWINDOW));
 		SetWindowPlacement(grghwnd, &grgwpPrev);
-		SetWindowPos(grghwnd, HWND_TOP, 0, 0, 0, 0, 
+		SetWindowPos(grghwnd, HWND_TOP, 0, 0, 0, 0,
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_FRAMECHANGED);
-		
+
 		ShowCursor(true);
-		
+
 	}
-	if(wglGetCurrentContext() == grghrc)
+	if (wglGetCurrentContext() == grghrc)
 	{
 		wglMakeCurrent(NULL, NULL);
 	}
-		
-	if(grghrc)
+
+	if (grghrc)
 	{
 		wglDeleteContext(grghrc);
 		grghrc = NULL;
 	}
-		
-	if(grghdc)
+
+	if (grghdc)
 	{
 		ReleaseDC(grghwnd, grghdc);
 		grghdc = NULL;
 	}
-		
-	if(grgpFile)
+
+	if (grgpFile)
 	{
 		fprintf(grgpFile, "\n **** End ****\nLog File closed successfully. \n Program terminated successfully");
 		fclose(grgpFile);
