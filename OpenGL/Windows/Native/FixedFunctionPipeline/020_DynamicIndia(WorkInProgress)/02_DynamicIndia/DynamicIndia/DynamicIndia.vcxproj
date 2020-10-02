@@ -148,7 +148,7 @@
     <ResourceCompile Include="GRIcon.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PerspectiveTriangle.cpp" />
+    <ClCompile Include="DynamicIndia.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

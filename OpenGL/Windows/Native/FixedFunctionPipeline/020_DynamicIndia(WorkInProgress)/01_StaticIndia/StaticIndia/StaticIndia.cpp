@@ -314,28 +314,26 @@ void Display(void)
 	glVertex3f(0.4f, -0.05f, 0.0f);
 	glEnd();
 
-	// | of I
+	// | of I (top)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-2.89f, 0.7f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.25f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.25f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, -0.1f, 0.0f);
 	glEnd();
 
-	// | of I
+	// | of I (middle)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-2.89f, 0.3f, -6.0f);
 	glBegin(GL_QUADS);
 	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.3f, 0.0f);
 	glColor3f(1.0f, 1.0f, 1.0f);			//white
 	glVertex3f(-0.1f, -0.4f, 0.0f);
@@ -343,7 +341,7 @@ void Display(void)
 	glVertex3f(0.1f, -0.4f, 0.0f);
 	glEnd();
 
-	// | of I
+	// | of I (bottom)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-2.89f, -0.4f, -6.0f);
@@ -359,28 +357,26 @@ void Display(void)
 	glEnd();
 	
 	///////////////////////////////////////// N ///////////////////////////////////////////////////////////////
-	// N ( | of N)
+	// N ( | of N) (top)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-2.0f, 0.7f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, -0.1f, 0.0f);
 	glEnd();
 
-	// | of N
+	// | of N (middle)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-2.0f, 0.3f, -6.0f);
 	glBegin(GL_QUADS);
 	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.3f, 0.0f);
 	glColor3f(1.0f, 1.0f, 1.0f);			//white
 	glVertex3f(-0.1f, -0.4f, 0.0f);
@@ -388,7 +384,7 @@ void Display(void)
 	glVertex3f(0.1f, -0.4f, 0.0f);
 	glEnd();
 
-	// | of N
+	// | of N (bottom)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-2.0f, -0.4f, -6.0f);
@@ -403,20 +399,16 @@ void Display(void)
 	glVertex3f(0.1f, -0.645f, 0.0f);
 	glEnd();
 
-	// TODO: \ of N
 	// N ( \ of N)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-1.875f, 0.7f, -6.0f);
 	glRotatef(12.0f, 0.0f, 0.0f, 1.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, -0.2f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, -0.2f, 0.0f);
 	glEnd();
 
@@ -428,6 +420,7 @@ void Display(void)
 	glBegin(GL_QUADS);
 	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.3f, 0.0f);
 	glColor3f(1.0f, 1.0f, 1.0f);			//white
 	glVertex3f(-0.1f, -0.5f, 0.0f);
@@ -457,24 +450,22 @@ void Display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-1.49f, 0.7f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, -0.1f, 0.0f);
 	glEnd();
 
-	// | of N
+	// | of N (middle)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-1.49f, 0.3f, -6.0f);
 	glBegin(GL_QUADS);
 	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.3f, 0.0f);
 	glColor3f(1.0f, 1.0f, 1.0f);			//white
 	glVertex3f(-0.1f, -0.4f, 0.0f);
@@ -482,7 +473,7 @@ void Display(void)
 	glVertex3f(0.1f, -0.4f, 0.0f);
 	glEnd();
 
-	// | of N
+	// | of N (bottom)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-1.49f, -0.4f, -6.0f);
@@ -498,28 +489,26 @@ void Display(void)
 	glEnd();
 
 	//////////////////////////////////////////////////// D ////////////////////////////////////////////////////////////////////
-	// D ( | of D)
+	// D ( | of D) (top)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-0.9f, 0.7f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, -0.1f, 0.0f);
 	glEnd();
 
-	// | of D
+	// | of D (middle)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-0.9f, 0.3f, -6.0f);
 	glBegin(GL_QUADS);
 	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(-0.1f, 0.3f, 0.0f);
 	glColor3f(1.0f, 1.0f, 1.0f);			//white
 	glVertex3f(-0.1f, -0.4f, 0.0f);
@@ -527,7 +516,7 @@ void Display(void)
 	glVertex3f(0.1f, -0.4f, 0.0f);
 	glEnd();
 
-	// | of D
+	// | of D (bottom)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-0.9f, -0.4f, -6.0f);
@@ -542,23 +531,319 @@ void Display(void)
 	glVertex3f(0.1f, -0.645f, 0.0f);
 	glEnd();
 
-	// \ of D
+	// top - of D
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glTranslatef(-0.58f, 0.93f, -6.0f);
-	glRotatef(78.0f, 0.0f, 0.0f, 1.0f);
+	glTranslatef(-0.6f, 1.0f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);
 	glBegin(GL_QUADS);
+	glVertex3f(0.11f, 0.1f, 0.0f);				//top right
+	glVertex3f(-0.2f, 0.1f, 0.0f);				// top left
+	glVertex3f(-0.2f, -0.1f, 0.0f);				// bottom left
+	glVertex3f(0.1f, -0.1f, 0.0f);				// bottom right
+	glEnd();
+	
+	// D ( \ of D)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(-0.32f, 0.89f, -6.0f);
+	glRotatef(60.0f, 0.0f, 0.0f, 1.0f);
 	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
-	glVertex3f(0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
-	glVertex3f(-0.1f, 0.4f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glBegin(GL_QUADS);
+	glVertex3f(0.1f, 0.25f, 0.0f);
+	glVertex3f(-0.1f, 0.3f, 0.0f);
 	glVertex3f(-0.1f, -0.2f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 	glVertex3f(0.1f, -0.2f, 0.0f);
 	glEnd();
 
-	 
+	// | of D (top)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(-0.2f, 0.5f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glBegin(GL_QUADS);
+	glVertex3f(0.1f, 0.37f, 0.0f);
+	glVertex3f(-0.1f, 0.4f, 0.0f);
+	glVertex3f(-0.1f, -0.07f, 0.0f);
+	glVertex3f(0.1f, -0.07f, 0.0f);
+	glEnd();
+
+	// | of D (middle)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(-0.2f, 0.4f, -6.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, -0.5f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, -0.5f, 0.0f);
+	glEnd();
+
+	// / of D
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(-0.32f, -0.83f, -6.0f);
+	glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);
+	glBegin(GL_QUADS);
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glVertex3f(-0.1f, 0.25f, 0.0f);
+	glVertex3f(-0.1f, -0.2f, 0.0f);
+	glVertex3f(0.1f, -0.2f, 0.0f);
+	glEnd();
+
+	// | of D (bottom)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(-0.2f, -0.3f, -6.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, 0.2f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, 0.2f, 0.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			//green
+	glVertex3f(-0.1f, -0.5f, 0.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			//green
+	glVertex3f(0.1f, -0.5f, 0.0f);
+	glEnd();
+
+	// bottom - of D
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(-0.6f, -0.946f, -6.0f);
+	//glRotatef(83.0f, 0.0f, 0.0f, 1.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);
+	glBegin(GL_QUADS);
+	glVertex3f(0.11f, 0.1f, 0.0f);
+	glVertex3f(-0.2f, 0.1f, 0.0f);
+	glVertex3f(-0.2f, -0.1f, 0.0f);
+	glVertex3f(0.11f, -0.1f, 0.0f);
+	glEnd();
+	
+	///////////////////////////////////////////////////////////////// I ///////////////////////////////////////////////////////////////////
+	
+	// - of A (top)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.6f, 1.0f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glBegin(GL_QUADS);
+	glVertex3f(0.4f, 0.1f, 0.0f);
+	glVertex3f(-0.4f, 0.1f, 0.0f);
+	glVertex3f(-0.4f, -0.05f, 0.0f);
+	glVertex3f(0.4f, -0.05f, 0.0f);
+	glEnd();
+
+	// bottom _ of I
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.6f, -1.0f, -6.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			//green
+	glBegin(GL_QUADS);
+	glVertex3f(0.4f, 0.1f, 0.0f);
+	glVertex3f(-0.4f, 0.1f, 0.0f);
+	glVertex3f(-0.4f, -0.05f, 0.0f);
+	glVertex3f(0.4f, -0.05f, 0.0f);
+	glEnd();
+
+	// | of I (top)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.623f, 0.7f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glBegin(GL_QUADS);
+	glVertex3f(0.1f, 0.25f, 0.0f);
+	glVertex3f(-0.1f, 0.25f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glEnd();
+
+	// | of I (middle)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.623f, 0.3f, -6.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, -0.4f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, -0.4f, 0.0f);
+	glEnd();
+
+	// | of I (bottom)
+	
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.623f, -0.38f, -6.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			//green
+	glVertex3f(-0.1f, -0.6f, 0.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			//green
+	glVertex3f(0.1f, -0.6f, 0.0f);
+	glEnd();
+
+	////////////////////////////////////////////////////////////// A //////////////////////////////////////////////////////////////////////
+
+	// - of A (middle - white)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(2.0f, -0.12f, -6.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glBegin(GL_QUADS);
+	glVertex3f(0.35f, 0.03f, 0.0f);
+	glVertex3f(-0.35f, 0.03f, 0.0f);
+	glVertex3f(-0.35f, -0.03f, 0.0f);
+	glVertex3f(0.35f, -0.03f, 0.0f);
+	glEnd();
+
+	// - of A (top - saffron)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(2.0f, -0.07f, -6.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(0.3f, 0.03f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(-0.3f, 0.03f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.3f, -0.03f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.3f, -0.03f, 0.0f);
+	glEnd();
+
+	// - of A (bottom - green)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(2.0f, -0.16f, -6.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.4f, 0.03f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.4f, 0.03f, 0.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			// green
+	glVertex3f(-0.4f, -0.03f, 0.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			// green
+	glVertex3f(0.4f, -0.03f, 0.0f);
+	glEnd();
+
+
+	// / of A (bottom)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(1.4f, -0.83f, -6.0f);
+	glRotatef(165.0f, 0.0f, 0.0f, 1.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			// green
+	glBegin(GL_QUADS);
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glVertex3f(-0.1f, 0.25f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glEnd();
+
+	// / of A (middle)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(1.4950f, -0.48f, -6.0f);
+	glRotatef(165.0f, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glColor3f(0.1f, 0.53f, 0.03f);			// green
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(0.1f, 0.53f, 0.03f);			// green
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, -0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, -0.3f, 0.0f);
+	glEnd();
+
+	// / of A (top)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(1.65f, 0.09f, -6.0f);
+	glRotatef(165.0f, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(-0.1f, -1.0f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(0.1f, -1.0f, 0.0f);
+	glEnd();
+
+	// - of A (top)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(1.93f, 1.0f, -6.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glBegin(GL_QUADS);
+	glVertex3f(0.12f, 0.13f, 0.0f);
+	glVertex3f(-0.12f, 0.13f, 0.0f);
+	glVertex3f(-0.12f, -0.01f, 0.0f);
+	glVertex3f(0.14f, -0.01f, 0.0f);
+	glEnd();
+
+
+	// \ of A (top)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(2.05f, 0.8f, -6.0f);
+	glRotatef(18.325f, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, -1.0f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, -1.0f, 0.0f);
+	glEnd();
+
+	// \ of A (middle)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(2.457f, -0.425f, -6.0f);
+	glRotatef(18.325f, 0.0f, 0.0f, 1.0f);
+	glColor3f(0.1f, 0.53f, 0.03f);			// green
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);			//white
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glColor3f(0.1f, 0.53f, 0.03f);			// green
+	glVertex3f(-0.1f, -0.3f, 0.0f);
+	glColor3f(0.1f, 0.53f, 0.03f);			// green
+	glVertex3f(0.1f, -0.3f, 0.0f);
+	glEnd();
+
+	// \ of A (bottom)
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(2.645f, -0.99f, -6.0f);
+	glRotatef(18.325f, 0.0f, 0.0f, 1.0f);
+	glColor3f(0.07f, 0.53f, 0.03f);			// green
+	glBegin(GL_QUADS);
+	glVertex3f(0.1f, 0.3f, 0.0f);
+	glVertex3f(-0.1f, 0.3f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+	glVertex3f(0.1f, -0.14f, 0.0f);
+	glEnd();
+
+
+
 	SwapBuffers(grghdc);
 }
 
