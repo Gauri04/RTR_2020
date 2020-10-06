@@ -42,18 +42,19 @@ GLfloat grColorDGreenRed = 0.0f;
 GLfloat grColorDGreenGreen = 0.0f;
 GLfloat grColorDGreenBlue = 0.0f;
 
+
 bool grbIMoved = false;
 bool grbNMoved = false;
 bool grbDColored = false;
 bool grbI2Moved = false;
 bool grbAMoved = false;
 
-GLfloat grMovePlaneInHorizontal = -4.8f;
+GLfloat grMovePlaneInHorizontal = -4.8f;	//4.8
 //GLfloat grMovePlane1InHorizontal = -2.0f;
-GLfloat grMovePlane2InHorizontal = -2.0f;	// green plane
-GLfloat grMovePlane3InHorizontal = -0.22f;	// orange plane
-GLfloat radius = 1.9f;
-bool flag = false;
+GLfloat grMovePlane2InHorizontal = -2.0f;	// 2.0 green plane
+GLfloat grMovePlane3InHorizontal = -0.22f;	// -0.22  orange plane
+GLfloat radius = 2.0f;
+bool bPlanesVisible = false;
 bool bStartAnimation = false;
 
 // planes
@@ -768,7 +769,7 @@ void Display(void)
 	////////////////////////////////////////////////////////////// A //////////////////////////////////////////////////////////////////////
 	////////////////////////////// middle - of A with colors
 
-	if (grMovePlane3InHorizontal >= 4.5)
+	if (grMovePlane3InHorizontal >= 4.0)
 	{
 		// - of A (top - saffron)
 		glMatrixMode(GL_MODELVIEW);
@@ -805,7 +806,7 @@ void Display(void)
 
 	}
 
-	if (grMovePlane2InHorizontal >= 2.0f)
+	if (grMovePlane2InHorizontal >= 1.7f)
 	{
 		// - of A (bottom - green)
 		glMatrixMode(GL_MODELVIEW);
@@ -932,417 +933,421 @@ void Display(void)
 	
 
 
-
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////// PLANES //////////////////////////////////////////////////////////////
-		// | of plane (1)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.0f, 2.0f + (radius * sin(x)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.3f, 0.0f);
-	glVertex3f(-0.05f, 0.3f, 0.0f);
-	glVertex3f(-0.05f, -0.3f, 0.0f);
-	glVertex3f(0.0f, -0.3f, 0.0f);
-	glEnd();
+	if (bPlanesVisible == true)
+	{
+		///////////////////////////////////////////////////////// PLANE 1 (ORANGE - MIDDLE) /////////////////////////////////////////////
 
-	// small | of plane (2)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.05f, 2.0f + (radius * sin(x)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glVertex3f(0.0f, -0.1f, 0.0f);
-	glEnd();
-
-	// \ of plane (3)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.10f, 2.0f + (radius * sin(x)) + 0.12f, -6.0f);
-	//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, -0.15f, 0.0f);
-	glVertex3f(0.0f, -0.15f, 0.0f);
-	glEnd();
-
-	// \ of plane (4)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.15f, 2.0f + (radius * sin(x)) + 0.12f, -6.0f);
-	//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, -0.08f, 0.0f);
-	glVertex3f(0.0f, -0.08f, 0.0f);
-	glEnd();
-
-	// small / of plane (5)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.2f, 2.0f + (radius * sin(x)) - 0.065f, -6.0f);
-	//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, -0.08f, 0.0f);
-	glVertex3f(0.0f, -0.08f, 0.0f);
-	glEnd();
-
-	// / of plane (6)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.15f, 2.0f + (radius * sin(x)) - 0.07f, -6.0f);
-	//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, -0.15f, 0.0f);
-	glVertex3f(0.0f, -0.15f, 0.0f);
-	glEnd();
-
-	// ---------- Front side of plane
-	// > of plane (7)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.0f, 2.0f + (radius * sin(x)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.3f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.3f, 0.0f);
-	glVertex3f(-0.0f, -0.3f, 0.0f);
-	glEnd();
-
-	// >  tip of plane (8) 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.1f, 2.0f + (radius * sin(x)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.4f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.0f, -0.1f, 0.0f);
-	glEnd();
-
-	// Window of plane (9)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.15f, 2.0f + (radius * sin(x)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.8f, 0.8f, 0.8f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.25f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.0f, -0.05f, 0.0f);
-	glEnd();
-
-
-	// Smoke of plane (10)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.15f, 2.0f + (radius * sin(x)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_QUADS);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(-0.25f, 0.05f, 0.0f);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(-0.25f, -0.05f, 0.0f);
-	glColor3f(1.0f, 0.5f, 0.10f);			//saffron
-	glVertex3f(0.0f, -0.05f, 0.0f);
-	glEnd();
-
-
-	///////////////////////////////////////////////////////// PLANE 3 (GREEN - Bottom) /////////////////////////////////////////////
-
-	// | of plane (1)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.0f, -2.0f + (radius * sin(-y)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.3f, 0.0f);
-	glVertex3f(-0.05f, 0.3f, 0.0f);
-	glVertex3f(-0.05f, -0.3f, 0.0f);
-	glVertex3f(0.0f, -0.3f, 0.0f);
-	glEnd();
-
-	// small | of plane (2)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.05f, -2.0f + (radius * sin(-y)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glVertex3f(0.0f, -0.1f, 0.0f);
-	glEnd();
-
-	// \ of plane (3)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.10f, -2.0f + (radius * sin(-y)) + 0.12f, -6.0f);
-	//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, -0.15f, 0.0f);
-	glVertex3f(0.0f, -0.15f, 0.0f);
-	glEnd();
-
-	// \ of plane (4)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.15f, -2.0f + (radius * sin(-y)) + 0.12f, -6.0f);
-	//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, -0.08f, 0.0f);
-	glVertex3f(0.0f, -0.08f, 0.0f);
-	glEnd();
-
-	// small / of plane (5)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.2f, -2.0f + (radius * sin(-y)) - 0.065f, -6.0f);
-	//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, -0.08f, 0.0f);
-	glVertex3f(0.0f, -0.08f, 0.0f);
-	glEnd();
-
-	// / of plane (6)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.15f, -2.0f + (radius * sin(-y)) - 0.07f, -6.0f);
-	//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
-	glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, -0.15f, 0.0f);
-	glVertex3f(0.0f, -0.15f, 0.0f);
-	glEnd();
-
-	// ---------- Front side of plane
-	// > of plane (7)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.0f, -2.0f + (radius * sin(-y)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.3f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.3f, 0.0f);
-	glVertex3f(-0.0f, -0.3f, 0.0f);
-	glEnd();
-
-	// >  tip of plane (8) 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.1f, -2.0f + (radius * sin(-y)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.4f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.0f, -0.1f, 0.0f);
-	glEnd();
-
-	// Window of plane (9)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.15f, -2.0f + (radius * sin(-y)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.8f, 0.8f, 0.8f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.25f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.0f, -0.05f, 0.0f);
-	glEnd();
-
-
-	// Smoke of plane (10)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.15f, -2.0f + (radius * sin(-y)) + 0.0f, -6.0f);
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.07f, 0.53f, 0.03f);			//green
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(-0.25f, 0.05f, 0.0f);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(-0.25f, -0.05f, 0.0f);
-	glColor3f(0.07f, 0.53f, 0.03f);			//green
-	glVertex3f(0.0f, -0.05f, 0.0f);
-	glEnd();
-
-
-	/////////////////////////////////////////////////////////PLANE 2 (WHITE- MIDDLE) /////////////////////////////////////////////
 // | of plane (1)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.0f, 2.2f + (radius * sin(x)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.3f, 0.0f);
+		glVertex3f(-0.05f, 0.3f, 0.0f);
+		glVertex3f(-0.05f, -0.3f, 0.0f);
+		glVertex3f(0.0f, -0.3f, 0.0f);
+		glEnd();
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
-	glTranslatef(grMovePlaneInHorizontal + 0.0f, 0.0f, -6.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.3f, 0.0f);
-	glVertex3f(-0.05f, 0.3f, 0.0f);
-	glVertex3f(-0.05f, -0.3f, 0.0f);
-	glVertex3f(0.0f, -0.3f, 0.0f);
-	glEnd();
+		// small | of plane (2)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.05f, 2.2f + (radius * sin(x)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.1f, 0.0f);
+		glVertex3f(-0.1f, 0.1f, 0.0f);
+		glVertex3f(-0.1f, -0.1f, 0.0f);
+		glVertex3f(0.0f, -0.1f, 0.0f);
+		glEnd();
 
-	// small | of plane (2)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal - 0.05f, 0.0f, -6.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glVertex3f(0.0f, -0.1f, 0.0f);
-	glEnd();
+		// \ of plane (3)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.10f, 2.2f + (radius * sin(x)) + 0.12f, -6.0f);
+		//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, -0.15f, 0.0f);
+		glVertex3f(0.0f, -0.15f, 0.0f);
+		glEnd();
 
-	// \ of plane (3)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal - 0.10f, 0.12f, -6.0f);
-	glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, -0.15f, 0.0f);
-	glVertex3f(0.0f, -0.15f, 0.0f);
-	glEnd();
+		// \ of plane (4)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.15f, 2.2f + (radius * sin(x)) + 0.12f, -6.0f);
+		//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, -0.08f, 0.0f);
+		glVertex3f(0.0f, -0.08f, 0.0f);
+		glEnd();
 
-	// \ of plane (4)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal - 0.15f, 0.12f, -6.0f);
-	glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, -0.08f, 0.0f);
-	glVertex3f(0.0f, -0.08f, 0.0f);
-	glEnd();
+		// small / of plane (5)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.2f, 2.2f + (radius * sin(x)) - 0.065f, -6.0f);
+		//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, -0.08f, 0.0f);
+		glVertex3f(0.0f, -0.08f, 0.0f);
+		glEnd();
 
-	// small / of plane (5)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal - 0.2f, -0.065f, -6.0f);
-	glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, 0.05f, 0.0f);
-	glVertex3f(-0.05f, -0.08f, 0.0f);
-	glVertex3f(0.0f, -0.08f, 0.0f);
-	glEnd();
+		// / of plane (6)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.15f, 2.2f + (radius * sin(x)) - 0.07f, -6.0f);
+		//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, -0.15f, 0.0f);
+		glVertex3f(0.0f, -0.15f, 0.0f);
+		glEnd();
 
-	// / of plane (6)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal - 0.15f, -0.07f, -6.0f);
-	glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, 0.15f, 0.0f);
-	glVertex3f(-0.05f, -0.15f, 0.0f);
-	glVertex3f(0.0f, -0.15f, 0.0f);
-	glEnd();
+		// ---------- Front side of plane
+		// > of plane (7)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.0f, 2.2f + (radius * sin(x)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.3f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.3f, 0.0f);
+		glVertex3f(-0.0f, -0.3f, 0.0f);
+		glEnd();
 
-	// ---------- Front side of plane
-	// > of plane (7)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal + 0.0f, 0.0f, -6.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.3f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.3f, 0.0f);
-	glVertex3f(-0.0f, -0.3f, 0.0f);
-	glEnd();
+		// >  tip of plane (8) 
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.1f, 2.2f + (radius * sin(x)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.4f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.1f, 0.0f);
+		glVertex3f(-0.0f, -0.1f, 0.0f);
+		glEnd();
 
-	// >  tip of plane (8) 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal + 0.1f, 0.0f, -6.0f);
-	glColor3f(0.54f, 0.60f, 0.83f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.4f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.0f, -0.1f, 0.0f);
-	glEnd();
-
-	// Window of plane (9)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal + 0.15f, 0.0f, -6.0f);
-	glColor3f(0.8f, 0.8f, 0.8f); // blue color
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.25f, 0.0f, 0.0f);			//apex
-	glVertex3f(-0.0f, 0.05f, 0.0f);
-	glVertex3f(-0.0f, -0.05f, 0.0f);
-	glEnd();
-
-
-	// Smoke of plane (10)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(grMovePlaneInHorizontal - 0.15f, 0.0f, -6.0f);
-	//glColor3f(0.8f, 0.8f, 0.8f); // blue color
-	glBegin(GL_QUADS);
-	glColor3f(0.8f, 0.8f, 0.8f); // blue color
-	glVertex3f(0.0f, 0.05f, 0.0f);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(-0.25f, 0.05f, 0.0f);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(-0.25f, -0.05f, 0.0f);
-	glColor3f(0.8f, 0.8f, 0.8f); // blue color
-	glVertex3f(0.0f, -0.05f, 0.0f);
-	glEnd();
+		// Window of plane (9)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) + 0.15f, 2.2f + (radius * sin(x)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.8f, 0.8f, 0.8f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.25f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.0f, -0.05f, 0.0f);
+		glEnd();
 
 
+		// Smoke of plane (10)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(-2.0f + grMovePlane3InHorizontal + (radius * cos(x)) - 0.15f, 2.2f + (radius * sin(x)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(-0.25f, 0.05f, 0.0f);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(-0.25f, -0.05f, 0.0f);
+		glColor3f(1.0f, 0.5f, 0.10f);			//saffron
+		glVertex3f(0.0f, -0.05f, 0.0f);
+		glEnd();
 
+
+		///////////////////////////////////////////////////////// PLANE 3 (GREEN - Bottom) /////////////////////////////////////////////
+
+		// | of plane (1)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.0f, -2.2f + (radius * sin(-y)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.3f, 0.0f);
+		glVertex3f(-0.05f, 0.3f, 0.0f);
+		glVertex3f(-0.05f, -0.3f, 0.0f);
+		glVertex3f(0.0f, -0.3f, 0.0f);
+		glEnd();
+
+		// small | of plane (2)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.05f, -2.2f + (radius * sin(-y)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.1f, 0.0f);
+		glVertex3f(-0.1f, 0.1f, 0.0f);
+		glVertex3f(-0.1f, -0.1f, 0.0f);
+		glVertex3f(0.0f, -0.1f, 0.0f);
+		glEnd();
+
+		// \ of plane (3)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.10f, -2.2f + (radius * sin(-y)) + 0.12f, -6.0f);
+		//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, -0.15f, 0.0f);
+		glVertex3f(0.0f, -0.15f, 0.0f);
+		glEnd();
+
+		// \ of plane (4)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.15f, -2.2f + (radius * sin(-y)) + 0.12f, -6.0f);
+		//glRotatef(40.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, -0.08f, 0.0f);
+		glVertex3f(0.0f, -0.08f, 0.0f);
+		glEnd();
+
+		// small / of plane (5)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.2f, -2.2f + (radius * sin(-y)) - 0.065f, -6.0f);
+		//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, -0.08f, 0.0f);
+		glVertex3f(0.0f, -0.08f, 0.0f);
+		glEnd();
+
+		// / of plane (6)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.15f, -2.2f + (radius * sin(-y)) - 0.07f, -6.0f);
+		//glRotatef(140.0f + grangle, 0.0f, 0.0f, 1.0f);
+		glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, -0.15f, 0.0f);
+		glVertex3f(0.0f, -0.15f, 0.0f);
+		glEnd();
+
+		// ---------- Front side of plane
+		// > of plane (7)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.0f, -2.2f + (radius * sin(-y)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.3f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.3f, 0.0f);
+		glVertex3f(-0.0f, -0.3f, 0.0f);
+		glEnd();
+
+		// >  tip of plane (8) 
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.1f, -2.2f + (radius * sin(-y)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.4f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.1f, 0.0f);
+		glVertex3f(-0.0f, -0.1f, 0.0f);
+		glEnd();
+
+		// Window of plane (9)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) + 0.15f, -2.2f + (radius * sin(-y)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.8f, 0.8f, 0.8f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.25f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.0f, -0.05f, 0.0f);
+		glEnd();
+
+
+		// Smoke of plane (10)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlane2InHorizontal + (radius * cos(-y)) - 0.15f, -2.2f + (radius * sin(-y)) + 0.0f, -6.0f);
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glColor3f(0.07f, 0.53f, 0.03f);			//green
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(-0.25f, 0.05f, 0.0f);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(-0.25f, -0.05f, 0.0f);
+		glColor3f(0.07f, 0.53f, 0.03f);			//green
+		glVertex3f(0.0f, -0.05f, 0.0f);
+		glEnd();
+
+
+		/////////////////////////////////////////////////////////PLANE 2 (WHITE- MIDDLE) /////////////////////////////////////////////
+	// | of plane (1)
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		//glRotatef(grangle, 0.0f, 0.0f, 1.0f);
+		glTranslatef(grMovePlaneInHorizontal + 0.0f, 0.0f, -6.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.3f, 0.0f);
+		glVertex3f(-0.05f, 0.3f, 0.0f);
+		glVertex3f(-0.05f, -0.3f, 0.0f);
+		glVertex3f(0.0f, -0.3f, 0.0f);
+		glEnd();
+
+		// small | of plane (2)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal - 0.05f, 0.0f, -6.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.1f, 0.0f);
+		glVertex3f(-0.1f, 0.1f, 0.0f);
+		glVertex3f(-0.1f, -0.1f, 0.0f);
+		glVertex3f(0.0f, -0.1f, 0.0f);
+		glEnd();
+
+		// \ of plane (3)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal - 0.10f, 0.12f, -6.0f);
+		glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, -0.15f, 0.0f);
+		glVertex3f(0.0f, -0.15f, 0.0f);
+		glEnd();
+
+		// \ of plane (4)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal - 0.15f, 0.12f, -6.0f);
+		glRotatef(40.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, -0.08f, 0.0f);
+		glVertex3f(0.0f, -0.08f, 0.0f);
+		glEnd();
+
+		// small / of plane (5)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal - 0.2f, -0.065f, -6.0f);
+		glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, 0.05f, 0.0f);
+		glVertex3f(-0.05f, -0.08f, 0.0f);
+		glVertex3f(0.0f, -0.08f, 0.0f);
+		glEnd();
+
+		// / of plane (6)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal - 0.15f, -0.07f, -6.0f);
+		glRotatef(140.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_QUADS);
+		glVertex3f(0.0f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, 0.15f, 0.0f);
+		glVertex3f(-0.05f, -0.15f, 0.0f);
+		glVertex3f(0.0f, -0.15f, 0.0f);
+		glEnd();
+
+		// ---------- Front side of plane
+		// > of plane (7)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal + 0.0f, 0.0f, -6.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.3f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.3f, 0.0f);
+		glVertex3f(-0.0f, -0.3f, 0.0f);
+		glEnd();
+
+		// >  tip of plane (8) 
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal + 0.1f, 0.0f, -6.0f);
+		glColor3f(0.54f, 0.60f, 0.83f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.4f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.1f, 0.0f);
+		glVertex3f(-0.0f, -0.1f, 0.0f);
+		glEnd();
+
+		// Window of plane (9)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal + 0.15f, 0.0f, -6.0f);
+		glColor3f(0.8f, 0.8f, 0.8f); // blue color
+		glBegin(GL_TRIANGLES);
+		glVertex3f(0.25f, 0.0f, 0.0f);			//apex
+		glVertex3f(-0.0f, 0.05f, 0.0f);
+		glVertex3f(-0.0f, -0.05f, 0.0f);
+		glEnd();
+
+
+		// Smoke of plane (10)
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(grMovePlaneInHorizontal - 0.15f, 0.0f, -6.0f);
+		//glColor3f(0.8f, 0.8f, 0.8f); // blue color
+		glBegin(GL_QUADS);
+		glColor3f(0.8f, 0.8f, 0.8f); // blue color
+		glVertex3f(0.0f, 0.05f, 0.0f);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(-0.25f, 0.05f, 0.0f);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(-0.25f, -0.05f, 0.0f);
+		glColor3f(0.8f, 0.8f, 0.8f); // blue color
+		glVertex3f(0.0f, -0.05f, 0.0f);
+		glEnd();
+
+	}
+	
 
 
 	Update();
@@ -1357,7 +1362,7 @@ void Update(void)
 		// Move I from left
 		if (grMoveI <= 0)
 		{
-			grMoveI = grMoveI + 0.008f;
+			grMoveI = grMoveI + 0.02;
 		}
 		else
 		{
@@ -1369,7 +1374,7 @@ void Update(void)
 		{
 			if (grMoveA >= 0)
 			{
-				grMoveA = grMoveA - 0.008f;
+				grMoveA = grMoveA - 0.02;
 			}
 			else
 			{
@@ -1383,7 +1388,7 @@ void Update(void)
 		{
 			if (grMoveN <= 0)
 			{
-				grMoveN = grMoveN + 0.008f;
+				grMoveN = grMoveN + 0.02;
 			}
 			else
 			{
@@ -1397,7 +1402,7 @@ void Update(void)
 		{
 			if (grMoveI2 >= 0)
 			{
-				grMoveI2 = grMoveI2 - 0.008f;
+				grMoveI2 = grMoveI2 - 0.02;
 			}
 			else
 			{
@@ -1449,13 +1454,14 @@ void Update(void)
 
 		if (grbDColored == true)
 		{
+			bPlanesVisible = true;
 			////////// planes logic////////////
 			if (grMovePlaneInHorizontal <= 5.0f)
 			{
 				if (grMovePlaneInHorizontal >= 1.8f)
 					grMovePlaneInHorizontal = grMovePlaneInHorizontal + 0.02f;
 				else
-					grMovePlaneInHorizontal = grMovePlaneInHorizontal + 0.005f;
+					grMovePlaneInHorizontal = grMovePlaneInHorizontal + 0.0055f;
 			}
 
 			if (x <= (((PI * radius) / 2) + ((PI * radius) / 4)))
@@ -1464,8 +1470,8 @@ void Update(void)
 			}
 			else
 			{
-				grMovePlane3InHorizontal = grMovePlane3InHorizontal + 0.005f;
-				if (grMovePlane3InHorizontal >= 4.5f)
+				grMovePlane3InHorizontal = grMovePlane3InHorizontal + 0.0055f;
+				if (grMovePlane3InHorizontal >= 4.0f)
 				{
 					if (x <= (2 * PI))
 						x = x + 0.01;
@@ -1474,12 +1480,12 @@ void Update(void)
 
 			if (y <= (((PI * radius) / 2) + ((PI * radius) / 4)))
 			{
-				y = y + 0.001850f;
+				y = y + 0.001860f;
 			}
 			else
 			{
-				grMovePlane2InHorizontal = grMovePlane2InHorizontal + 0.005f;
-				if (grMovePlane2InHorizontal >= 2.0f)
+				grMovePlane2InHorizontal = grMovePlane2InHorizontal + 0.006f;
+				if (grMovePlane2InHorizontal >= 1.7f)
 				{
 
 					if (y <= (2 * PI))
