@@ -812,7 +812,7 @@ void Display(void)
 
 	}
 
-	if (grMoveGreenPlaneInHorizontal >= 2.1f)
+	if (grMoveGreenPlaneInHorizontal >= 2.3f)
 	{
 		// - of A (bottom - green)
 		glMatrixMode(GL_MODELVIEW);
@@ -1069,9 +1069,8 @@ void Display(void)
 		glVertex3f(0.17f, -0.05f, 0.0f);
 		glEnd();
 
-		
+
 		// Smoke of plane (10)
-		
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glTranslated(-2.0f + grMoveOrangePlaneInHorizontal + (radius * cos(x)), 2.0f + (radius * sin(x)) + 0.0f, -6.0f);
@@ -1086,9 +1085,6 @@ void Display(void)
 		glColor3f(1.0f, 0.5f, 0.10f);			//saffron
 		glVertex3f(-0.10f, -0.05f, 0.0f);
 		glEnd();
-	
-		
-
 
 
 		///////////////////////////////////////////////////////// PLANE 3 (GREEN - Bottom) /////////////////////////////////////////////
@@ -1453,11 +1449,11 @@ void Update(void)
 				{
 					if (grColorDGreenBlue <= 0.03f)
 					{
-						grColorDGreenBlue = grColorDGreenBlue + 0.000050f;
+						grColorDGreenBlue = grColorDGreenBlue + 0.00001f;
 					}
-					grColorDGreenRed = grColorDGreenRed + 0.00010f;
+					grColorDGreenRed = grColorDGreenRed + 0.00002f;
 				}
-				grColorDGreenGreen = grColorDGreenGreen + 0.00050f;
+				grColorDGreenGreen = grColorDGreenGreen + 0.0005f;
 			}
 
 			if (grColorDSaffronRed >= 1.0f)
