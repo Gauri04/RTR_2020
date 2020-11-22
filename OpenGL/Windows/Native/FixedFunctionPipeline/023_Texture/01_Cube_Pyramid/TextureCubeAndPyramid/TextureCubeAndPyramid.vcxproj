@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c4934b09-fe74-483b-ba7f-50fd7bcd5e3f}</ProjectGuid>
-    <RootNamespace>RoboticArm</RootNamespace>
+    <ProjectGuid>{91d506f2-5227-47fb-9074-eeffff6541ef}</ProjectGuid>
+    <RootNamespace>TextureCubeAndPyramid</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,16 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="GRIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="gricon.ico" />
+    <Image Include="Stone.bmp" />
+    <Image Include="Vijay_Kundali.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GRIcon.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="PerspectiveTriangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

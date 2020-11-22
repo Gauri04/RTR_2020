@@ -327,9 +327,9 @@ void Display(void)
 	gluLookAt(0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 	
 	glPushMatrix();
-
+	glRotatef(90.0f, 1.0f, 0.0f, 0.0f);					//b rotate to match south-north pole to its right directions 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);			//b
-	glColor3f(1.0f, 1.0f, 0.0f);
+	glColor3f(1.0f, 1.0f, 0.0f);						//b
 	grquadric = gluNewQuadric();
 	gluSphere(grquadric, 0.75, 30, 30);
 	glPopMatrix();										//b

@@ -23,6 +23,12 @@
     <Image Include="gricon.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Stone.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Vijay_Kundali.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GRIcon.rc">
@@ -30,7 +36,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PerspectiveTriangle.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

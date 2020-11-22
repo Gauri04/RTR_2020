@@ -10,12 +10,6 @@
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
 
-// project specific global variables declaration
-int grshoulder;
-int elbow;
-
-GLUquadric* grquadric = NULL;
-
 // global fuctions declaration
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
@@ -28,6 +22,11 @@ bool grgbActiveWindow = false;
 HDC grghdc = NULL;
 HGLRC grghrc = NULL;
 FILE *grgpFile = NULL;
+
+// project specific global variables declaration
+GLfloat grfangle;
+GLuint grstone_texture;
+GLuint grkundali_texture;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -176,27 +175,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					break;
 			}
 			break;
-
-		case WM_CHAR:
-			switch (wParam)
-			{
-				case 'S':
-					grshoulder = (grshoulder + 3) % 360;
-					break;
-
-				case 's':
-					grshoulder = (grshoulder - 3) % 360;
-					break;
-
-				case 'E':
-					elbow = (elbow + 3) % 360;
-					break;
-
-				case 'e':
-					elbow = (elbow - 3) % 360;
-					break;
-			}
-			break;
 			
 		case WM_CLOSE :
 			DestroyWindow(hwnd);
@@ -245,6 +223,7 @@ void Initialize()
 {
 	// function declaration
 	void Resize(int, int);
+	bool LoadGLTexture(GLuint*, TCHAR[]);
 	
 	//variable declarations
 	PIXELFORMATDESCRIPTOR grpfd;
@@ -263,6 +242,7 @@ void Initialize()
 	grpfd.cGreenBits = 8;
 	grpfd.cBlueBits = 8;
 	grpfd.cAlphaBits = 8;
+	grpfd.cDepthBits = 32;
 	
 	griPixelFormatIndex = ChoosePixelFormat(grghdc, &grpfd);
 	if(griPixelFormatIndex == 0)
@@ -290,16 +270,56 @@ void Initialize()
 		DestroyWindow(grghwnd);
 	}
 	
-	// set clearcolor
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	
 	glShadeModel(GL_SMOOTH);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	
+	// load textures
+	LoadGLTexture(&grstone_texture, MAKEINTRESOURCE(STONE_BITMAP));
+	LoadGLTexture(&grkundali_texture, MAKEINTRESOURCE(KUNDALI_BITMAP));
 
+	// enable texture
+	glEnable(GL_TEXTURE_2D);
+
+	// set clearcolor
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
+}
+
+bool LoadGLTexture(GLuint* texture, TCHAR resourceID[])
+{
+	// variable declarations
+	bool bResult = false;
+	HBITMAP hBitmap = NULL;
+	BITMAP bmp;
+
+	//code
+	// OS dependent code starts from here
+	hBitmap = (HBITMAP)LoadImage(GetModuleHandle(NULL), resourceID, IMAGE_BITMAP,  0, 0, LR_CREATEDIBSECTION);		// cx and cy  is 0,0 for bitmap img, for icon, give width and height
+	if (hBitmap)
+	{
+		bResult = true;
+		GetObject(hBitmap, sizeof(bmp), &bmp);
+
+		// from here starts OpenGL actual code
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		glGenTextures(1, texture);
+		glBindTexture(GL_TEXTURE_2D, *texture);
+		// setting of texture parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);		// MAG - Magnification
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);				// MIN - Minification
+		// following call will actually push the graphic data into the memory with the help of graphic drivers
+		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, bmp.bmWidth, bmp.bmHeight, GL_BGR_EXT, GL_UNSIGNED_BYTE, bmp.bmBits); // 3 is GL_RGBA 
+		DeleteObject(hBitmap);
+
+	}
+
+	return(bResult);
+
 }
 
 void Resize(int width, int height)
@@ -317,40 +337,154 @@ void Resize(int width, int height)
 
 void Display(void)
 {
+	// function declaration
+	void Update(void);
+
 	// code
 	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+
 	glMatrixMode(GL_MODELVIEW);
+
+	////////////// Pyramid ///////////////////////
 	glLoadIdentity();
-	
-	glTranslatef(0.0f, 0.0f, -12.0f);
-	glPushMatrix();
+	glTranslatef(-2.0f, 0.0f, -6.0f);
+	glRotatef(grfangle, 0.0f, 1.0f, 0.0f);
+	glBindTexture(GL_TEXTURE_2D, grstone_texture);
+	glBegin(GL_TRIANGLES);
 
-	glRotatef((GLfloat)grshoulder, 0.0f, 0.0f, 1.0f);				// rotate the modelview matrix
-	glTranslatef(1.0f, 0.0f, 0.0f);
+		// front face
+		glTexCoord2f(0.5f, 1.0f);
+		glVertex3f(0.0f, 1.0f, 0.0f);	//apex
+		
+		//left
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);
+		
+		//right
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);
 
-	glPushMatrix();
-	glScalef(2.0f, 0.5f, 1.0f);
-	glColor3f(0.5, 0.35f, 0.05f);
-	grquadric = gluNewQuadric();
-	gluSphere(grquadric, 0.5, 10, 10);
-	glPopMatrix();
 
-	glTranslatef(1.0f, 0.0f, 0.0f);
-	glRotatef((GLfloat)elbow, 0.0f, 0.0f, 1.0f);
-	glTranslatef(1.0f, 0.0f, 0.0f);
 
-	glPushMatrix();
-	glScalef(2.0f, 0.5f, 1.0f);
-	glColor3f(0.5f, 0.35f, 0.05f);
-	grquadric = gluNewQuadric();
-	gluSphere(grquadric, 0.5f, 10, 10);
-	glPopMatrix();
+		// right face (all x -ve)
+		glTexCoord2f(0.5f, 1.0f);
+		glVertex3f(0.0f, 1.0f, 0.0f);		//apex
 
-	glPopMatrix();
+		//right
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);
 
+		//left
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);
+
+
+
+		// back face (all z -ve)
+		glTexCoord2f(0.5f, 1.0f);
+		glVertex3f(0.0f, 1.0f, 0.0f);		//apex
+
+		//right
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);
+
+		//left
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);
+
+
+
+		// left face (all x -ve)
+		glTexCoord2f(0.5f, 1.0f);
+		glVertex3f(0.0f, 1.0f, 0.0f);	//apex
+		
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);
+
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);
+	glEnd();
+
+
+	/////////////////////// CUBE //////////////////////////////////////
+	glLoadIdentity();
+	glTranslatef(2.0, 0.0, -6.0);
+	glRotatef(grfangle, 1.0f, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, grkundali_texture);
+	glBegin(GL_QUADS);
+		// front face (all z +ve)
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);
+
+		// right face (all x +ve)
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);
+
+		// back face (all z -ve)
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);			//3
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);			//4
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);			//1
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);		//2
+
+		// left face (all x -ve)
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);
+
+		// top face (all y +ve)
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);
+
+		// bottom face (all y -ve)
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);			//4
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);		//3
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);			//2
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);			//1
+	glEnd();
+
+	Update();
 	SwapBuffers(grghdc);
+}
+
+void Update(void)
+{
+	if (grfangle >= 360.0f)
+	{
+		grfangle = 0.0f;
+	}
+	grfangle = grfangle + 0.1f;
 }
 
 void Uninitialize(void)
@@ -367,6 +501,10 @@ void Uninitialize(void)
 		ShowCursor(true);
 		
 	}
+
+	glDeleteTextures(1, &grstone_texture);
+	glDeleteTextures(1, &grkundali_texture);
+
 	if(wglGetCurrentContext() == grghrc)
 	{
 		wglMakeCurrent(NULL, NULL);

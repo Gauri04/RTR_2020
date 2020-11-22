@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c4934b09-fe74-483b-ba7f-50fd7bcd5e3f}</ProjectGuid>
-    <RootNamespace>RoboticArm</RootNamespace>
+    <ProjectGuid>{74ae613e-39ca-43a3-964d-7937d6e720ee}</ProjectGuid>
+    <RootNamespace>Checkerboard</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -148,7 +148,7 @@
     <ResourceCompile Include="GRIcon.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PerspectiveTriangle.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

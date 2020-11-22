@@ -1,0 +1,7 @@
+#include"GRIcon.h"
+
+GRICON ICON "gricon.ico"
+SMILEY_BITMAP BITMAP "Smiley.bmp"
+
+
+

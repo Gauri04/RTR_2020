@@ -1,0 +1,6 @@
+#include"GRIcon.h"
+
+GRICON ICON "gricon.ico"
+
+
+

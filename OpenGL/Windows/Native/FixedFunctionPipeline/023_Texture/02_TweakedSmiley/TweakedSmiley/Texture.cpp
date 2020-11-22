@@ -10,12 +10,6 @@
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
 
-// project specific global variables declaration
-int grshoulder;
-int elbow;
-
-GLUquadric* grquadric = NULL;
-
 // global fuctions declaration
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
@@ -28,6 +22,10 @@ bool grgbActiveWindow = false;
 HDC grghdc = NULL;
 HGLRC grghrc = NULL;
 FILE *grgpFile = NULL;
+
+// project specific global variables declaration
+GLuint grsmileyTexture;
+GLuint grpressedDigit;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -167,33 +165,37 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					DestroyWindow(hwnd);
 					break;
 				
-				case 0x46 : 
+				case 0x46 :			// f/F key
 				case 0x66 :
 					ToggleFullScreen();
 					break;
+
+				case 0x31 :
+				case VK_NUMPAD1:
+					grpressedDigit = 1;
+					glEnable(GL_TEXTURE_2D);
+					break;
 				
+				case 0x32 :
+				case VK_NUMPAD2:
+					grpressedDigit = 2;
+					glEnable(GL_TEXTURE_2D);
+					break;
+
+				case 0x33:
+				case VK_NUMPAD3:
+					grpressedDigit = 3;
+					glEnable(GL_TEXTURE_2D);
+					break;
+
+				case 0x34:
+				case VK_NUMPAD4:
+					grpressedDigit = 4;
+					glEnable(GL_TEXTURE_2D);
+					break;
+
 				default : 
-					break;
-			}
-			break;
-
-		case WM_CHAR:
-			switch (wParam)
-			{
-				case 'S':
-					grshoulder = (grshoulder + 3) % 360;
-					break;
-
-				case 's':
-					grshoulder = (grshoulder - 3) % 360;
-					break;
-
-				case 'E':
-					elbow = (elbow + 3) % 360;
-					break;
-
-				case 'e':
-					elbow = (elbow - 3) % 360;
+					glDisable(GL_TEXTURE_2D);
 					break;
 			}
 			break;
@@ -245,6 +247,7 @@ void Initialize()
 {
 	// function declaration
 	void Resize(int, int);
+	bool LoadGLTexture(GLuint*, TCHAR[]);
 	
 	//variable declarations
 	PIXELFORMATDESCRIPTOR grpfd;
@@ -263,6 +266,7 @@ void Initialize()
 	grpfd.cGreenBits = 8;
 	grpfd.cBlueBits = 8;
 	grpfd.cAlphaBits = 8;
+	grpfd.cDepthBits = 32;
 	
 	griPixelFormatIndex = ChoosePixelFormat(grghdc, &grpfd);
 	if(griPixelFormatIndex == 0)
@@ -290,16 +294,52 @@ void Initialize()
 		DestroyWindow(grghwnd);
 	}
 	
-	// set clearcolor
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	
 	glShadeModel(GL_SMOOTH);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	
+	// load textures
+	LoadGLTexture(&grsmileyTexture, MAKEINTRESOURCE(SMILEY_BITMAP));
 
+	// set clearcolor
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
+}
+
+bool LoadGLTexture(GLuint* texture, TCHAR resourceID[])
+{
+	// variable declarations
+	bool bResult = false;
+	HBITMAP hBitmap = NULL;
+	BITMAP bmp;
+
+	//code
+	// OS dependent code starts from here
+	hBitmap = (HBITMAP)LoadImage(GetModuleHandle(NULL), resourceID, IMAGE_BITMAP,  0, 0, LR_CREATEDIBSECTION);		// cx and cy  is 0,0 for bitmap img, for icon, give width and height
+	if (hBitmap)
+	{
+		bResult = true;
+		GetObject(hBitmap, sizeof(bmp), &bmp);
+
+		// from here starts OpenGL actual code
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		glGenTextures(1, texture);
+		glBindTexture(GL_TEXTURE_2D, *texture);
+		// setting of texture parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);		// MAG - Magnification
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);				// MIN - Minification
+		// following call will actually push the graphic data into the memory with the help of graphic drivers
+		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, bmp.bmWidth, bmp.bmHeight, GL_BGR_EXT, GL_UNSIGNED_BYTE, bmp.bmBits); // 3 is GL_RGBA 
+		DeleteObject(hBitmap);
+
+	}
+
+	return(bResult);
+
 }
 
 void Resize(int width, int height)
@@ -317,38 +357,80 @@ void Resize(int width, int height)
 
 void Display(void)
 {
+
 	// code
 	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+
 	glMatrixMode(GL_MODELVIEW);
+
+	/////////////////////// SQUARE //////////////////////////////////////
 	glLoadIdentity();
-	
-	glTranslatef(0.0f, 0.0f, -12.0f);
-	glPushMatrix();
+	glTranslatef(0.0, 0.0, -6.0);
+	glBindTexture(GL_TEXTURE_2D, grsmileyTexture);
 
-	glRotatef((GLfloat)grshoulder, 0.0f, 0.0f, 1.0f);				// rotate the modelview matrix
-	glTranslatef(1.0f, 0.0f, 0.0f);
-
-	glPushMatrix();
-	glScalef(2.0f, 0.5f, 1.0f);
-	glColor3f(0.5, 0.35f, 0.05f);
-	grquadric = gluNewQuadric();
-	gluSphere(grquadric, 0.5, 10, 10);
-	glPopMatrix();
-
-	glTranslatef(1.0f, 0.0f, 0.0f);
-	glRotatef((GLfloat)elbow, 0.0f, 0.0f, 1.0f);
-	glTranslatef(1.0f, 0.0f, 0.0f);
-
-	glPushMatrix();
-	glScalef(2.0f, 0.5f, 1.0f);
-	glColor3f(0.5f, 0.35f, 0.05f);
-	grquadric = gluNewQuadric();
-	gluSphere(grquadric, 0.5f, 10, 10);
-	glPopMatrix();
-
-	glPopMatrix();
+	if (grpressedDigit == 1)
+	{
+		glBegin(GL_QUADS);
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex3f(1.0f, 1.0f, 0.0f);		// right top
+			glTexCoord2f(0.0f, 1.0f);			
+			glVertex3f(-1.0f, 1.0f, 0.0f);		// left top
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex3f(-1.0f, -1.0f, 0.0f);		// left bottom
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex3f(1.0f, -1.0f, 0.0f);		// right bottom
+		glEnd();
+	}
+	else if (grpressedDigit == 2)
+	{
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.5f, 0.5f);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.0f, 0.5f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glTexCoord2f(0.5f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+	}
+	else if (grpressedDigit == 3)
+	{
+		glBegin(GL_QUADS);
+		glTexCoord2f(2.0f, 2.0f);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.0f, 2.0f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glTexCoord2f(2.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+	}
+	else if (grpressedDigit == 4)
+	{
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.5f,0.5f);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.5f, 0.5f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.5f, 0.5f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glTexCoord2f(0.5f, 0.5f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+	}
+	else
+	{
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+	}
 
 	SwapBuffers(grghdc);
 }
@@ -367,6 +449,9 @@ void Uninitialize(void)
 		ShowCursor(true);
 		
 	}
+
+	glDeleteTextures(1, &grsmileyTexture);
+
 	if(wglGetCurrentContext() == grghrc)
 	{
 		wglMakeCurrent(NULL, NULL);

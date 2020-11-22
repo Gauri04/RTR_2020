@@ -9,12 +9,9 @@
 
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
-
-// project specific global variables declaration
-int grshoulder;
-int elbow;
-
-GLUquadric* grquadric = NULL;
+// project specific
+#define CHECK_IMAGE_WIDTH 64
+#define CHECK_IMAGE_HEIGHT 64
 
 // global fuctions declaration
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
@@ -28,6 +25,10 @@ bool grgbActiveWindow = false;
 HDC grghdc = NULL;
 HGLRC grghrc = NULL;
 FILE *grgpFile = NULL;
+
+// project specific global variables declaration
+GLubyte checkImage[CHECK_IMAGE_HEIGHT][CHECK_IMAGE_WIDTH][4];
+GLuint grtexImage;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -176,27 +177,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					break;
 			}
 			break;
-
-		case WM_CHAR:
-			switch (wParam)
-			{
-				case 'S':
-					grshoulder = (grshoulder + 3) % 360;
-					break;
-
-				case 's':
-					grshoulder = (grshoulder - 3) % 360;
-					break;
-
-				case 'E':
-					elbow = (elbow + 3) % 360;
-					break;
-
-				case 'e':
-					elbow = (elbow - 3) % 360;
-					break;
-			}
-			break;
 			
 		case WM_CLOSE :
 			DestroyWindow(hwnd);
@@ -245,6 +225,7 @@ void Initialize()
 {
 	// function declaration
 	void Resize(int, int);
+	void LoadGLTexture(void);
 	
 	//variable declarations
 	PIXELFORMATDESCRIPTOR grpfd;
@@ -263,6 +244,7 @@ void Initialize()
 	grpfd.cGreenBits = 8;
 	grpfd.cBlueBits = 8;
 	grpfd.cAlphaBits = 8;
+	grpfd.cDepthBits = 32;
 	
 	griPixelFormatIndex = ChoosePixelFormat(grghdc, &grpfd);
 	if(griPixelFormatIndex == 0)
@@ -290,16 +272,73 @@ void Initialize()
 		DestroyWindow(grghwnd);
 	}
 	
-	// set clearcolor
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	
 	glShadeModel(GL_SMOOTH);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	
+	// enable texture
+	glEnable(GL_TEXTURE_2D);
+	// load texture
+	LoadGLTexture();
 
+	// set clearcolor
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
+}
+
+void LoadGLTexture(void)
+{
+	// function declaration
+	void MakeCheckImage(void);
+
+	// code
+	MakeCheckImage();
+	glGenTextures(1, &grtexImage);
+	glBindTexture(GL_TEXTURE_2D, grtexImage);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	// setting of texture parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);			// wrap the texture around x axis (Texture's "S" = x axis)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);			// wrap the texture around y axis (Texture's "T" = x axis)
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);		// MAG - Magnification  GL_NEAREST for increased performance
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);		// MIN - Minification	GL_NEAREST for increased performance
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECK_IMAGE_WIDTH, CHECK_IMAGE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	/* params of glTexImage2D(same as gluBuid2dMipmaps 1st param,
+				0 is mipmap level,
+				internal texture format - same as gluBuild2dMipmaps 2nd param,
+				width of img - same as gluBuild2dMipmaps 3rd param, 
+				height og img - same as gluBuild2dMipmaps 4th param, 
+				0 is border width,
+				format - same as gluBuild2dMipmaps 5th param,
+				type of the data - same as gluBuild2dMipmaps 6th param,
+				data - same as gluBuild2dMipmaps 7th param);
+
+	*/
+
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);				// This line is not necessary as its anyways done internally
+}
+
+void MakeCheckImage(void)
+{
+	int i, j, c;
+	for (i = 0; i < CHECK_IMAGE_HEIGHT; i++)
+	{
+		for (j = 0; j < CHECK_IMAGE_WIDTH; j++)
+		{
+			c = (((i & 0x8) == 0) ^ ((j & 0x8) == 0)) * 255;
+
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = 255;
+
+		}
+	}
 }
 
 void Resize(int width, int height)
@@ -311,7 +350,7 @@ void Resize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
-	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
+	gluPerspective(60.0f, (GLfloat)width / (GLfloat)height, 0.1f, 30.0f);
 	
 }
 
@@ -319,37 +358,41 @@ void Display(void)
 {
 	// code
 	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+
 	glMatrixMode(GL_MODELVIEW);
+
+	/////////////////////// Checkerboard - 1 //////////////////////////////////////
 	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -3.6f);
+	glBindTexture(GL_TEXTURE_2D, grtexImage);
+	glBegin(GL_QUADS);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(0.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-2.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-2.0f, -1.0f, 0.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(0.0f, -1.0f, 0.0f);
+	glEnd();
+
 	
-	glTranslatef(0.0f, 0.0f, -12.0f);
-	glPushMatrix();
-
-	glRotatef((GLfloat)grshoulder, 0.0f, 0.0f, 1.0f);				// rotate the modelview matrix
-	glTranslatef(1.0f, 0.0f, 0.0f);
-
-	glPushMatrix();
-	glScalef(2.0f, 0.5f, 1.0f);
-	glColor3f(0.5, 0.35f, 0.05f);
-	grquadric = gluNewQuadric();
-	gluSphere(grquadric, 0.5, 10, 10);
-	glPopMatrix();
-
-	glTranslatef(1.0f, 0.0f, 0.0f);
-	glRotatef((GLfloat)elbow, 0.0f, 0.0f, 1.0f);
-	glTranslatef(1.0f, 0.0f, 0.0f);
-
-	glPushMatrix();
-	glScalef(2.0f, 0.5f, 1.0f);
-	glColor3f(0.5f, 0.35f, 0.05f);
-	grquadric = gluNewQuadric();
-	gluSphere(grquadric, 0.5f, 10, 10);
-	glPopMatrix();
-
-	glPopMatrix();
-
+	/////////////////////// Checkerboard - 2 //////////////////////////////////////
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -3.6f);
+	glBindTexture(GL_TEXTURE_2D, grtexImage);
+	glBegin(GL_QUADS);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(2.41421f, 1.0f, -1.41421f);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(1.0f, -1.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(2.41421f, -1.0f, -1.41421f);
+	glEnd();
+	
 	SwapBuffers(grghdc);
 }
 
@@ -367,6 +410,9 @@ void Uninitialize(void)
 		ShowCursor(true);
 		
 	}
+
+	glDeleteTextures(1, &grtexImage);
+
 	if(wglGetCurrentContext() == grghrc)
 	{
 		wglMakeCurrent(NULL, NULL);
