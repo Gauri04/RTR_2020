@@ -3,7 +3,6 @@
 #include<GL\gl.h>
 #include<GL\Glu.h>	// graphic library utility
 #include"GRIcon.h"
-#include<math.h>	// for M_PI
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "Glu32.lib")
@@ -26,12 +25,21 @@ FILE *grgpFile = NULL;
 
 // project specific global variables declaration
 GLfloat grfangle;
-GLfloat grfIdentityMatrix[16];
-GLfloat grfTranslationMatrix[16];
-GLfloat grfScaleMatrix[16];
-GLfloat grfRotationMatrix_X[16];
-GLfloat grfRotationMatrix_Y[16];
-GLfloat grfRotationMatrix_Z[16];
+bool gbLight = true;
+GLfloat lightAmbient[] =			// gray
+{
+	0.5f, 0.5f, 0.5f, 1.0f
+};
+
+GLfloat lightDiffuse[] =
+{
+	1.0f, 1.0f, 1.0f, 1.0f
+};
+
+GLfloat lightPosition[] =			// light comes from z axis
+{
+	0.0f, 0.0f, 2.0f, 1.0f
+};
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -181,6 +189,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 			
+		case WM_CHAR :
+			switch (wParam)
+			{
+					case 'l':
+					case 'L':
+						if (gbLight == true)
+						{
+							glEnable(GL_LIGHTING);
+						}
+						else
+						{
+							glDisable(GL_LIGHTING);
+						}
+						break;
+			}
+			break;
+
 		case WM_CLOSE :
 			DestroyWindow(hwnd);
 			break;
@@ -274,17 +299,21 @@ void Initialize()
 		DestroyWindow(grghwnd);
 	}
 	
-	// intialize the 
-
-
-	// set clearcolor
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	
 	glShadeModel(GL_SMOOTH);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	
+	// set clearcolor
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
+	glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
+	glEnable(GL_LIGHT1);
+
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
 }
@@ -308,50 +337,51 @@ void Display(void)
 	void Update(void);
 
 	// code
-	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslatef(0.0f, 0.0f, -4.0f);
-	glScalef(0.75f, 0.75f, 0.75f);
-	glRotatef(grfangle, 1.0f, 0.0f, 0.0f);
-	glRotatef(grfangle, 0.0f, 1.0f, 0.0f);
-	glRotatef(grfangle, 0.0f, 0.0f, 1.0f);
+	glTranslatef(0.0f, 0.0f, -6.0f);
+	glRotatef(grfangle, 1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
 		// front face (all z +ve)
-	
+		glNormal3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);
 		glVertex3f(-1.0f, 1.0f, 1.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);
 
 		// right face (all x +ve)
+		glNormal3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);
 
 		// back face (all z -ve)
+		glNormal3f(0.0f, 0.0f, -1.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 
 		// left face (all x -ve)
+		glNormal3f(-1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, 1.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);
 
 		// top face (all y +ve)
+		glNormal3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);
 		glVertex3f(-1.0f, 1.0f, 1.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);
 
 		// bottom face (all y -ve)
+		glNormal3f(0.0f, -1.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);

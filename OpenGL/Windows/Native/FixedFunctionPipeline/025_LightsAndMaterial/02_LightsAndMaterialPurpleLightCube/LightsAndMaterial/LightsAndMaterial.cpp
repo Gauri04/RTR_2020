@@ -3,7 +3,6 @@
 #include<GL\gl.h>
 #include<GL\Glu.h>	// graphic library utility
 #include"GRIcon.h"
-#include<math.h>	// for M_PI
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "Glu32.lib")
@@ -24,14 +23,43 @@ HDC grghdc = NULL;
 HGLRC grghrc = NULL;
 FILE *grgpFile = NULL;
 
-// project specific global variables declaration
-GLfloat grfangle;
-GLfloat grfIdentityMatrix[16];
-GLfloat grfTranslationMatrix[16];
-GLfloat grfScaleMatrix[16];
-GLfloat grfRotationMatrix_X[16];
-GLfloat grfRotationMatrix_Y[16];
-GLfloat grfRotationMatrix_Z[16];
+// project specific variables
+bool grgbLight = false;
+
+
+GLfloat grlightAmbient[] =			
+{
+	0.1f, 0.1f, 0.1f, 1.0f
+};
+GLfloat grlightDiffuse[] =
+{
+	1.0f, 1.0f, 1.0f, 1.0f
+};
+GLfloat grlightSpecular[] =
+{
+	1.0f, 1.0f, 1.0f, 1.0f
+};
+GLfloat grlightPosition[] =			// light comes from z axis
+{
+	100.0f, 100.0f, 100.0f, 1.0f
+};
+
+GLfloat grmaterialAmbient[] =
+{
+	0.0f, 0.0f, 0.0f, 1.0f
+};
+GLfloat grmaterialDiffuse[] =
+{
+	0.5f, 0.2f, 0.7f, 1.0f
+};
+GLfloat grmaterialSpecular[] =
+{
+	0.7f, 0.7f, 0.7f, 1.0f
+};
+GLfloat grmaterialShinyness = 128.0f;
+
+GLUquadric *grquadric = NULL;
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -181,6 +209,25 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 			
+		case WM_CHAR:
+			switch (wParam)
+			{
+			case 'l':
+			case 'L':
+				grgbLight = !grgbLight;
+				if (grgbLight == true)
+				{
+					glEnable(GL_LIGHTING);
+				}
+				else
+				{
+					glDisable(GL_LIGHTING);
+				}
+				break;
+			}
+			break;
+
+
 		case WM_CLOSE :
 			DestroyWindow(hwnd);
 			break;
@@ -246,7 +293,6 @@ void Initialize()
 	grpfd.cGreenBits = 8;
 	grpfd.cBlueBits = 8;
 	grpfd.cAlphaBits = 8;
-	grpfd.cDepthBits = 32;
 	
 	griPixelFormatIndex = ChoosePixelFormat(grghdc, &grpfd);
 	if(griPixelFormatIndex == 0)
@@ -274,17 +320,29 @@ void Initialize()
 		DestroyWindow(grghwnd);
 	}
 	
-	// intialize the 
-
-
-	// set clearcolor
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	// Depth
 	glShadeModel(GL_SMOOTH);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+	// set clearcolor
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	
+	// Light
+	glLightfv(GL_LIGHT1, GL_AMBIENT, grlightAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, grlightDiffuse);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, grlightSpecular);
+	
+
+	// material
+	glMaterialfv(GL_FRONT, GL_AMBIENT, grmaterialAmbient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, grmaterialDiffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, grmaterialSpecular);
+	glMaterialf(GL_FRONT, GL_SHININESS, grmaterialShinyness);
+	glEnable(GL_LIGHT1);
+
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
 }
@@ -304,70 +362,24 @@ void Resize(int width, int height)
 
 void Display(void)
 {
-	// function declaration
-	void Update(void);
-
-	// code
 	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+	// code
 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
-	glTranslatef(0.0f, 0.0f, -4.0f);
-	glScalef(0.75f, 0.75f, 0.75f);
-	glRotatef(grfangle, 1.0f, 0.0f, 0.0f);
-	glRotatef(grfangle, 0.0f, 1.0f, 0.0f);
-	glRotatef(grfangle, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_QUADS);
-		// front face (all z +ve)
+	glLightfv(GL_LIGHT1, GL_POSITION, grlightPosition);
 	
-		glVertex3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
+	glTranslatef(0.0f, 0.0f, -0.55f);
+	//glRotatef(grflight, 1.0f, 1.0f, 1.0f);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	grquadric = gluNewQuadric();
+	gluSphere(grquadric, 0.2, 30, 30);
 
-		// right face (all x +ve)
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, -1.0f);
+	// normals are calculated by glu library, we dont need to calculate normals explicitely
 
-		// back face (all z -ve)
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, -1.0f, -1.0f);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-
-		// left face (all x -ve)
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
-
-		// top face (all y +ve)
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-
-		// bottom face (all y -ve)
-		glVertex3f(1.0f, -1.0f, -1.0f);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
-	glEnd();
-	Update();
+	
 	SwapBuffers(grghdc);
-}
-
-void Update(void)
-{
-	if (grfangle >= 360.0f)
-	{
-		grfangle = 0.0f;
-	}
-	grfangle = grfangle + 0.20f;
 }
 
 void Uninitialize(void)
@@ -406,6 +418,12 @@ void Uninitialize(void)
 		fprintf(grgpFile, "\n **** End ****\nLog File closed successfully. \n Program terminated successfully");
 		fclose(grgpFile);
 		grgpFile = NULL;
+	}
+	
+	if (grquadric)
+	{
+		gluDeleteQuadric(grquadric);
+		grquadric = NULL;
 	}
 }
 
