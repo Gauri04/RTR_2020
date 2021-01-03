@@ -18,9 +18,21 @@
     <ClInclude Include="GRIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="teapot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="gricon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Stone.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Vijay_Kundali.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -30,7 +42,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LightsAndMaterial.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

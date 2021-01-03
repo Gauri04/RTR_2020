@@ -1,7 +1,7 @@
 #include"GRIcon.h"
 
 GRICON ICON "gricon.ico"
-STONE_BITMAP BITMAP "Stone.bmp"
+STONE_BITMAP BITMAP "bird.bmp"
 KUNDALI_BITMAP BITMAP "Vijay_Kundali.bmp"
 
 

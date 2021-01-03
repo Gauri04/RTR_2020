@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a9a0d9b6-5cb8-4722-919f-d3d2135232c6}</ProjectGuid>
-    <RootNamespace>LightsAndMaterial</RootNamespace>
+    <ProjectGuid>{91d506f2-5227-47fb-9074-eeffff6541ef}</ProjectGuid>
+    <RootNamespace>TextureCubeAndPyramid</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,16 +139,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="GRIcon.h" />
+    <ClInclude Include="OGL.h" />
+    <ClInclude Include="teapot.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="gricon.ico" />
+    <Image Include="Stone.bmp" />
+    <Image Include="Vijay_Kundali.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GRIcon.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="LightsAndMaterial.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

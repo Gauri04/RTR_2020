@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a9a0d9b6-5cb8-4722-919f-d3d2135232c6}</ProjectGuid>
-    <RootNamespace>LightsAndMaterial</RootNamespace>
+    <ProjectGuid>{77ea61c5-3c4e-4089-b28a-919623f45c9a}</ProjectGuid>
+    <RootNamespace>ThreeLightSphere</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -148,7 +148,7 @@
     <ResourceCompile Include="GRIcon.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LightsAndMaterial.cpp" />
+    <ClCompile Include="PerspectiveTriangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
