@@ -27,43 +27,43 @@ FILE *grgpFile = NULL;
 bool grgbLight = false;
 GLUquadric *grquadric = NULL;
 
-GLfloat lightAmbientZero[] =
+GLfloat grlightAmbientZero[] =
 { 0.0f, 0.0f, 0.0f, 1.0f };
-GLfloat lightDiffuseZero[] =
+GLfloat grlightDiffuseZero[] =
 { 1.0f, 0.0f, 0.0f, 1.0f };
-GLfloat lightSpecularZero[] =
+GLfloat grlightSpecularZero[] =
 { 1.0f, 0.0f, 0.0f, 1.0f };
-GLfloat lightPositionZero[] =
+GLfloat grlightPositionZero[] =
 { 0.0f, 0.0f, 0.0f, 1.0f };				// positional light
 
 
-GLfloat lightAmbientOne[] =
+GLfloat grlightAmbientOne[] =
 { 0.0f, 0.0f, 0.0f, 1.0f };
-GLfloat lightDiffuseOne[] =
+GLfloat grlightDiffuseOne[] =
 { 0.0f, 1.0f, 0.0f, 1.0f };
-GLfloat lightSpecularOne[] =
+GLfloat grlightSpecularOne[] =
 { 0.0f, 1.0f, 0.0f, 1.0f };
-GLfloat lightPositionOne[] =
+GLfloat grlightPositionOne[] =
 { 0.0f, 0.0f, 0.0f, 1.0f };
 
-GLfloat lightAmbientTwo[] =
+GLfloat grlightAmbientTwo[] =
 { 0.0f, 0.0f, 0.0f, 1.0f };
-GLfloat lightDiffuseTwo[] =
+GLfloat grlightDiffuseTwo[] =
 { 0.0f, 0.0f, 1.0f, 1.0f };
-GLfloat lightSpecularTwo[] =
+GLfloat grlightSpecularTwo[] =
 { 0.0f, 0.0f, 1.0f, 1.0f };
-GLfloat lightPositionTwo[] =
+GLfloat grlightPositionTwo[] =
 { 0.0f, 0.0f, 0.0f, 1.0f };
 
-GLfloat materialAmbient[] =
+GLfloat grmaterialAmbient[] =
 { 0.0f, 0.0f, 0.0f, 1.0f };
-GLfloat materialDiffuse[] =
+GLfloat grmaterialDiffuse[] =
 { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat materialShininess = 50.0f;
+GLfloat grmaterialShininess = 50.0f;
 
-GLfloat lightAngle0 = 0.0f;
-GLfloat lightAngle1 = 0.0f;
-GLfloat lightAngle2 = 0.0f;
+GLfloat grlightAngle0 = 0.0f;
+GLfloat grlightAngle1 = 0.0f;
+GLfloat grlightAngle2 = 0.0f;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -333,27 +333,27 @@ void Initialize()
 
 
 	// lights initialization
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbientZero);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuseZero);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecularZero);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, grlightAmbientZero);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, grlightDiffuseZero);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, grlightSpecularZero);
 	glEnable(GL_LIGHT0);
 
-	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbientOne);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuseOne);
-	glLightfv(GL_LIGHT1, GL_SPECULAR, lightSpecularOne);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, grlightAmbientOne);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, grlightDiffuseOne);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, grlightSpecularOne);
 	glEnable(GL_LIGHT1);
 
-	glLightfv(GL_LIGHT2, GL_AMBIENT, lightAmbientTwo);
-	glLightfv(GL_LIGHT2, GL_DIFFUSE, lightDiffuseTwo);
-	glLightfv(GL_LIGHT2, GL_SPECULAR, lightSpecularTwo);
+	glLightfv(GL_LIGHT2, GL_AMBIENT, grlightAmbientTwo);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, grlightDiffuseTwo);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, grlightSpecularTwo);
 	glEnable(GL_LIGHT2);
 
 
 	// material initialization
-	glMaterialfv(GL_FRONT, GL_AMBIENT, materialAmbient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDiffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, materialDiffuse);
-	glMaterialf(GL_FRONT, GL_SHININESS, materialShininess);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, grmaterialAmbient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, grmaterialDiffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, grmaterialDiffuse);
+	glMaterialf(GL_FRONT, GL_SHININESS, grmaterialShininess);
 
 	// set clearcolor
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -391,22 +391,22 @@ void Display(void)
 
 	// first light - red
 	glPushMatrix();
-	glRotatef(lightAngle0, 1.0f, 0.0f, 0.0f);
-	lightPositionZero[1] = lightAngle0;
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPositionZero);
+	glRotatef(grlightAngle0, 1.0f, 0.0f, 0.0f);
+	grlightPositionZero[1] = grlightAngle0;
+	glLightfv(GL_LIGHT0, GL_POSITION, grlightPositionZero);
 	glPopMatrix();
 
 	// second light - green
 	glPushMatrix();
-	glRotatef(lightAngle1, 0.0f, 1.0f,  0.0f);
-	lightPositionOne[1] = lightAngle1;
-	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionOne);
+	glRotatef(grlightAngle1, 0.0f, 1.0f,  0.0f);
+	grlightPositionOne[2] = grlightAngle1;
+	glLightfv(GL_LIGHT1, GL_POSITION, grlightPositionOne);
 	glPopMatrix();
 
 	glPushMatrix();
-	glRotatef(lightAngle2, 0.0f, 0.0f, 1.0f);
-	lightPositionTwo[1] = lightAngle2;
-	glLightfv(GL_LIGHT2, GL_POSITION, lightPositionTwo);
+	glRotatef(grlightAngle2, 0.0f, 0.0f, 1.0f);
+	grlightPositionTwo[1] = grlightAngle2;
+	glLightfv(GL_LIGHT2, GL_POSITION, grlightPositionTwo);
 	glPopMatrix();
 	
 	glLoadIdentity();
@@ -425,17 +425,17 @@ void Display(void)
 
 void Update()
 {
-	lightAngle0 = lightAngle0 + 0.02f;
-	if (lightAngle0 >= 360.0f)
-		lightAngle0 = 0.0f;
+	grlightAngle0 = grlightAngle0 + 0.5f;
+	if (grlightAngle0 >= 360.0f)
+		grlightAngle0 = 0.0f;
 
-	lightAngle1 = lightAngle1 + 0.02f;
-	if (lightAngle1 >= 360.0f)
-		lightAngle1 = 0.0f;
+	grlightAngle1 = grlightAngle1 + 0.5f;
+	if (grlightAngle1 >= 360.0f)
+		grlightAngle1 = 0.0f;
 
-	lightAngle2 = lightAngle2 + 0.02f;
-	if (lightAngle2 >= 360.0f)
-		lightAngle2 = 0.0f;
+	grlightAngle2 = grlightAngle2 + 0.5f;
+	if (grlightAngle2 >= 360.0f)
+		grlightAngle2 = 0.0f;
 
 }
 

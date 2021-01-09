@@ -1,0 +1,199 @@
+#pragma region tree code
+	glPushMatrix();
+	glLoadIdentity();
+	glTranslatef(-3.5f, -1.8f, -8.0f);
+	
+
+	//glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef((GLfloat)grrotate, 0.0f, 1.0f, 0.0f);
+
+	// STEM
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, 0.0f);
+	glColor3f(0.3f, 0.22f, 0.0f);
+	glScalef(0.8f, 4.5f, 0.6f);
+	grquadricTree = gluNewQuadric();
+	gluSphere(grquadricTree, 0.7f, 40, 40);
+	glPopMatrix();
+
+	// branch
+	/*
+	glPushMatrix();
+	glTranslatef(0.05f, 1.4f, 0.1f);
+
+	glRotatef(30.0f, 0.0f, 0.0f, 1.0f);
+	glPushMatrix();
+
+	glTranslatef(0.0f, 0.5f, 0.0f);
+	glScalef(0.3f, 0.6f, 0.3f);
+	glColor3f(0.5f, 0.5f, 0.0f);
+	gluSphere(grquadric, 0.6f, 40, 40);;
+	glPopMatrix();
+	glPopMatrix();
+	*/
+
+
+	// tree leaves
+	glPushMatrix();
+	glTranslatef(0.0f, 2.8f, 0.0f);
+	glScalef(1.5f, 1.5f, 1.5f);
+
+	glPushMatrix();												// center 1
+	glTranslatef(0.0f, 0.0f, 0.0f);
+	glScalef(1.3f, 1.5f, 1.3f);
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+	
+	glPushMatrix();											// bottom right 2
+	glTranslatef(0.4f, -0.3f, 0.0f);
+	glRotatef(70.0f, 0.0f, 1.0f, 1.0f);
+	glScalef(1.3f, 1.3f, 1.3f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+	
+	glPushMatrix();										// middle right 3
+	glTranslatef(1.0f, 0.0f, 0.0f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+	
+	glPushMatrix();										// up 4
+	glTranslatef(-0.1f, 0.7f, 0.0f);
+	//glRotatef(60.0f, 1.0f, 1.0f, 1.0f);
+	glScalef(1.3f, 1.3f, 1.6f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+	
+	glPushMatrix();												// upper left 5
+	glTranslatef(-0.4f, 0.3f, 0.0f);
+	//glRotatef(60.0f, 1.0f, 0.0f, 0.0f);
+	glScalef(1.5f, 1.5f, 1.3f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+	
+	glPushMatrix();												// middle left 6
+	glTranslatef(-0.6f, -0.3f, 0.0f);
+	glScalef(1.35f, 1.35f, 1.35f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+	
+
+	glPushMatrix();												// bottom left 7
+	glTranslatef(-0.6f, -0.2f, 0.0f);
+	glScalef(1.35f, 1.35f, 1.35f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+
+	glPushMatrix();												// right 8
+	glTranslatef(0.7f, 0.5f, 0.0f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+
+	glPushMatrix();												// right 9
+	glTranslatef(0.63f, 0.8f, 0.1f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+
+	glPushMatrix();												// right 10
+	glTranslatef(-0.74f, 0.66f, 0.1f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+	glPushMatrix();												// right 10
+	glTranslatef(-0.9f, 0.2f, 0.0f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+
+	glPushMatrix();												// upper left middle 10
+	glTranslatef(-0.1f, 1.0f, 0.0f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+
+	glPushMatrix();												// right 10
+	glTranslatef(-1.2f, 0.34f, 0.0f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+
+
+	glPushMatrix();												// right 10
+	glTranslatef(-0.5f, 1.0f, 0.0f);
+	glScalef(1.2f, 1.2f, 1.4f);
+	glBindTexture(GL_TEXTURE_2D, grtextureLeaves);
+	grquadricTree = gluNewQuadric();
+	gluQuadricTexture(grquadricTree, GLU_TRUE);
+	gluSphere(grquadricTree, 0.4f, 30, 30);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glPopMatrix();
+
+	glPopMatrix();
+	glPopMatrix();
+#pragma endregion tree code
