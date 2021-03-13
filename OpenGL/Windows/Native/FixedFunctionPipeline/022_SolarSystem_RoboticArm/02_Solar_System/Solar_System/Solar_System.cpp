@@ -326,6 +326,7 @@ void Display(void)
 	
 	gluLookAt(0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 	
+	//SUN
 	glPushMatrix();
 	glRotatef(90.0f, 1.0f, 0.0f, 0.0f);					//b rotate to match south-north pole to its right directions 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);			//b
@@ -333,6 +334,8 @@ void Display(void)
 	grquadric = gluNewQuadric();
 	gluSphere(grquadric, 0.75, 30, 30);
 	glPopMatrix();										//b
+
+	//EARTH
 	glPushMatrix();										//b
 	glRotatef((GLfloat)gryear, 0.0f, 1.0f, 0.0f);
 	glTranslatef(1.0f, 0.0f, 0.0f);

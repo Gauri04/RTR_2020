@@ -1,6 +1,7 @@
 #include<windows.h>
 #include<stdio.h>
 #include<GL\gl.h>
+#include<GL\glu.h>
 #include"GRWindow.h"
 
 #pragma comment(lib, "opengl32.lib")
