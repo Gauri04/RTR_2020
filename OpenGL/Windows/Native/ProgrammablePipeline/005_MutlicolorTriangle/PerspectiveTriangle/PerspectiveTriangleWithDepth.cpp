@@ -2,7 +2,10 @@
 #include<stdio.h>
 #include<gl\glew.h> // glew.h must be included BEFORE gl.h
 #include<gl\GL.h>
+#include"vmath.h"
 #include"GRWindow.h"
+
+using namespace vmath;
 
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -28,6 +31,20 @@ GLuint grgVertexShaderObject;
 GLuint grgFragmentShadeerObject;
 GLuint grgShaderProgramObject;
 
+enum
+{
+	GR_ATTRIBUTE_POSITION = 0,
+	GR_ATTRIBUTE_COLOR,
+	GR_ATTRIBUTE_TEXCOORD,
+	GR_ATTRIBUTE_NORMAL
+};
+
+GLuint grgVao;
+GLuint grgVbo_position;
+GLuint grgVbo_color;
+GLuint grgMvpMatrixUniform;
+mat4 grgPerspectiveProjectionMatrix;
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
 	// Function declaration
@@ -52,7 +69,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	}
 	else
 	{
-		fprintf(grgpFile, "Log file created successfully. \n Program started successfully\n **** Logs ***** \n");
+		fprintf_s(grgpFile, "Log file created successfully. \n Program started successfully\n **** Logs ***** \n");
 	}
 	
 	wndclass.cbSize = sizeof(WNDCLASSEX);
@@ -122,13 +139,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 		}
 		else
 		{
-			Display();
+			
 			if(grgbActiveWindow == true)
 			{
-				if (grgbEscapeKeyIsPressed == true)
-				{
-					grbDone = true;
-				}
+				Display();
 			}
 		}
 		
@@ -229,6 +243,7 @@ void Initialize()
 {
 	// function declaration
 	void Resize(int, int);
+	void Uninitialize(void);
 	
 	//variable declarations
 	PIXELFORMATDESCRIPTOR grpfd;
@@ -253,15 +268,13 @@ void Initialize()
 	if(griPixelFormatIndex == 0)
 	{
 		fprintf(grgpFile, "ChoosePixelFormat() failed\n");
-		ReleaseDC(grghwnd, grghdc);
-		grghdc = NULL;
+		Uninitialize();
 	}
 	
 	if(SetPixelFormat(grghdc, griPixelFormatIndex, &grpfd) == FALSE)
 	{
 		fprintf(grgpFile, "SetPixelFormat() failed\n");
-		ReleaseDC(grghwnd, grghdc);
-		grghdc = NULL;
+		Uninitialize();
 	}
 	
 	grghrc = wglCreateContext(grghdc);
@@ -290,7 +303,7 @@ void Initialize()
 		grghdc = NULL;
 	}
 
-
+	fprintf(grgpFile, "\n test");
 	/********* Shader Code *********/
 
 	// create shader
@@ -298,32 +311,81 @@ void Initialize()
 
 	///// Vertex Shader
 	const GLchar* grvertexShaderSourceCode =					// also called as "pass-through shader" as it does not have any code (main is empty, no code is there in main)
-		"#version 450" \
+		"#version 450 core" \
 		"\n" \
+		"in vec4 vPosition;" \
+		"in vec4 vColor;" \
+		"uniform mat4 u_mvpMatrix;" \
+		"out vec4 out_color;" \
 		"void main(void)" \
 		"{" \
+		"gl_Position = u_mvpMatrix * vPosition;" \
+		"out_color = vColor;" \
 		"}";
 	
 	glShaderSource(grgVertexShaderObject, 1, (const GLchar **) &grvertexShaderSourceCode, NULL);
 
 	// compile shader
 	glCompileShader(grgVertexShaderObject);
+	// error check for compilation
+	GLint griInfoLength = 0;
+	GLint griShaderCompileStatus = 0;
+	char* grszInfoLog = NULL;
+
+	glGetShaderiv(grgVertexShaderObject, GL_COMPILE_STATUS, &griShaderCompileStatus);
+	if (griShaderCompileStatus == GL_FALSE)
+	{
+		glGetShaderiv(grgVertexShaderObject, GL_INFO_LOG_LENGTH, &griInfoLength);
+		if (griInfoLength > 0)
+		{
+			grszInfoLog = (char*)malloc(sizeof(char) * sizeof(griInfoLength));
+			if (grszInfoLog != NULL)
+			{
+				GLsizei grwritten;
+				glGetShaderInfoLog(grgVertexShaderObject, griInfoLength, &grwritten, grszInfoLog);
+				fprintf(grgpFile, "\n Vertex Shader Compilation Log : %s", grszInfoLog);
+				free(grszInfoLog);
+				Uninitialize();
+			}
+		}
+	}
 
 	////// Fragment Shader
-	grgVertexShaderObject = glCreateShader(GL_FRAGMENT_SHADER);
+	grgFragmentShadeerObject = glCreateShader(GL_FRAGMENT_SHADER);
 
 	// source code of shader
 	const GLchar* grfragmentShaderSourceCode =
-		"#version 450" \
+		"#version 450 core" \
 		"\n" \
+		"in vec4 out_color;"
+		"out vec4 FragColor;" \
 		"void main(void)" \
 		"{" \
+		"FragColor = out_color;" \
 		"}";
 
-	glShaderSource(grgVertexShaderObject, 1, (const GLchar **) &grfragmentShaderSourceCode, NULL);
+	glShaderSource(grgFragmentShadeerObject, 1, (const GLchar **) &grfragmentShaderSourceCode, NULL);
 
 	// compile shader
 	glCompileShader(grgFragmentShadeerObject);
+	// error check for compiation
+	glGetShaderiv(grgFragmentShadeerObject, GL_COMPILE_STATUS, &griShaderCompileStatus);
+	if (griShaderCompileStatus == GL_FALSE)
+	{
+		glGetShaderiv(grgFragmentShadeerObject, GL_INFO_LOG_LENGTH, &griInfoLength);
+		if (griInfoLength > 0)
+		{
+			grszInfoLog = (char*)malloc(sizeof(char) * sizeof(griInfoLength));
+			if (grszInfoLog != NULL)
+			{
+				GLsizei grwritten;
+				glGetShaderInfoLog(grgFragmentShadeerObject, griInfoLength, &grwritten, grszInfoLog);
+				fprintf(grgpFile, "\n Fragment Shader Compilation Log : %s", grszInfoLog);
+				free(grszInfoLog);
+				Uninitialize();
+			}
+		}
+	}
 
 	//****** Shader Program *****//
 	// create
@@ -335,10 +397,67 @@ void Initialize()
 	// attach fragment shader to shader program
 	glAttachShader(grgShaderProgramObject, grgFragmentShadeerObject);
 
+	// pre-link our attribute enum with shader's attributes
+	glBindAttribLocation(grgShaderProgramObject, GR_ATTRIBUTE_POSITION, "vPosition");
+	glBindAttribLocation(grgShaderProgramObject, GR_ATTRIBUTE_COLOR, "vColor");
+
 	// link shader
 	glLinkProgram(grgShaderProgramObject);
+	// error check for linking
+	GLint griShaderProgramLinkStatus = 0;
+	glGetProgramiv(grgShaderProgramObject, GL_LINK_STATUS, &griShaderProgramLinkStatus);
+	if (griShaderProgramLinkStatus == GL_FALSE)
+	{
+		glGetProgramiv(grgShaderProgramObject, GL_INFO_LOG_LENGTH, &griInfoLength);
+		if (griInfoLength > 0)
+		{
+			grszInfoLog = (char*)malloc(sizeof(griInfoLength) * sizeof(char));
+			if (grszInfoLog != NULL)
+			{
+				GLsizei grwritten;
+				glGetProgramInfoLog(grgShaderProgramObject, griInfoLength, &grwritten, grszInfoLog);
+				fprintf(grgpFile, "\n Shader Program Link Log : %s", grszInfoLog);
+				Uninitialize();
+			}
+		}
+	}
 
+	grgMvpMatrixUniform = glGetUniformLocation(grgShaderProgramObject, "u_mvpMatrix");
+	const GLfloat grtriangleVertices[] =
+	{
+		0.0f, 1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f
+	};
+	const GLfloat grtriangleColors[] =
+	{
+		1.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 1.0f
+	};
 
+	glGenVertexArrays(1, &grgVao);
+	glBindVertexArray(grgVao);
+
+	glGenBuffers(1, &grgVbo_position);
+	glBindBuffer(GL_ARRAY_BUFFER, grgVbo_position);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(grtriangleVertices), grtriangleVertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(GR_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glEnableVertexAttribArray(GR_ATTRIBUTE_POSITION);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// color
+	glGenBuffers(1, &grgVbo_color);
+	glBindBuffer(GL_ARRAY_BUFFER, grgVbo_color);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(grtriangleColors), grtriangleColors, GL_STATIC_DRAW);
+	glVertexAttribPointer(GR_ATTRIBUTE_COLOR, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(GR_ATTRIBUTE_COLOR);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindVertexArray(0);
 
 	// Depth
 	glShadeModel(GL_SMOOTH);
@@ -346,9 +465,12 @@ void Initialize()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glEnable(GL_CULL_FACE);
 
 	// set clearcolor
-	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	grgPerspectiveProjectionMatrix = mat4::identity();
 	
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
@@ -360,8 +482,9 @@ void Resize(int width, int height)
 		height = 1;
 	
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
-	
-	
+
+	grgPerspectiveProjectionMatrix = vmath::perspective(45.0f, (GLfloat) width / (GLfloat) height, 0.1f, 100.0f);
+
 }
 
 void Display(void)
@@ -374,7 +497,25 @@ void Display(void)
 	glUseProgram(grgShaderProgramObject);
 
 	// OpenGL drawing code will start here
-	
+	mat4 grmodelViewMatrix = mat4::identity();
+	mat4 grmodelViewProjectionMatrix = mat4::identity();
+	mat4 grtranslateMatrix;
+
+	grtranslateMatrix = vmath::translate(0.0f, 0.0f, -3.0f);
+	grmodelViewMatrix = grtranslateMatrix;
+
+	// multiply modelview and orthographic matrix to get modelviewprojectionmatrix
+	grmodelViewProjectionMatrix = grgPerspectiveProjectionMatrix * grmodelViewMatrix;
+
+	glUniformMatrix4fv(grgMvpMatrixUniform, 1, GL_FALSE, grmodelViewProjectionMatrix);
+
+	// bind vao
+	glBindVertexArray(grgVao);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	// unbind vao
+	glBindVertexArray(0);
+
 
 	// stop use of shader program
 	glUseProgram(0);
@@ -394,6 +535,24 @@ void Uninitialize(void)
 		
 		ShowCursor(true);
 		
+	}
+
+	if (grgVao)
+	{
+		glDeleteVertexArrays(1, &grgVao);
+		grgVao = 0;
+	}
+
+	if (grgVbo_position)
+	{
+		glDeleteBuffers(1, &grgVbo_position);
+		grgVbo_position = 0;
+	}
+
+	if (grgVbo_color)
+	{
+		glDeleteBuffers(1, &grgVbo_color);
+		grgVbo_color = 0;
 	}
 
 	// free shader objects
