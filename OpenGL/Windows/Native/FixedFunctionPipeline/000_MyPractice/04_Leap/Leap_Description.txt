@@ -1,0 +1,22 @@
+Leap
+Description :
+This demo tries to show story of a little bird who is afraid to fly after meeting with an accident.
+The bird then gets motivated after seeing another bird flying freely in the sky, and takes a step ahead to fly.
+The demo tries to showcase that we all face some fallbacks in our journey, but all it takes is determination and dare which enables us to leap far and high, just like the bird. 
+
+Technology Used :
+Rendering technology : Opengl Fixed Function Pipeline
+Windowing Technology : Win32 SDK
+Programming Language : C++
+Data Structure : Linked List
+Music Editing Software : Audacity
+
+
+Music Credits :
+Finding Nemo - Thomas Newman
+How To Train Your Dragon : John Powell
+
+Created By : 
+Gauri Ranade - Blend Group (RTR 2020)
+Group Leader :
+Aditya Boob
