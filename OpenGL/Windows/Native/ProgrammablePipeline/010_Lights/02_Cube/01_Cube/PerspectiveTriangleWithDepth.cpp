@@ -31,31 +31,31 @@ GLuint grgVertexShaderObject;
 GLuint grgFragmentShadeerObject;
 GLuint grgShaderProgramObject;
 
-
 enum
 {
 	GR_ATTRIBUTE_POSITION = 0,
 	GR_ATTRIBUTE_COLOR,
-	GR_ATTRIBUTE_TEXCOORD,
-	GR_ATTRIBUTE_NORMAL
+	GR_ATTRIBUTE_NORMAL,
+	GR_ATTRIBUTE_TEXCOORD
 };
 
-GLuint grgVbo_position_pyramid;
-GLuint grgVbo_texture_pyramid;
+
 GLuint grgMvpMatrixUniform;
 mat4 grgPerspectiveProjectionMatrix;
-GLuint grgVao_pyramid;								// we will create as many Vbo's as glBegins, glEnds (one vbo for one glBegin glEnd)
+
+// project specific variables
 GLuint grgVao_cube;
 GLuint grgVbo_position_cube;
-GLuint grgVbo_texture_cube;
-GLfloat grgAnglePyramid = 0.0f;
+GLuint grgVbo_normal_cube;
 GLfloat grgAngleCube = 0.0f;
-
-// project specific global variables declaration
-GLfloat grfangle;
-GLuint grstone_texture;
-GLuint grkundali_texture;
-GLuint grgtextureSamplerUniform;
+GLuint grgModelViewMatrixUniform;
+GLuint grgProjectionMatrixUniform;
+GLuint grgLKeyPressedUniform;
+GLuint grgLdUniform;					// light diffuse
+GLuint grgKdUniform;					// material diffuse
+GLuint grgLightPositionUniform;		
+bool grbAnimate;
+bool grbLight;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -207,6 +207,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					break;
 			}
 			break;
+
+		case WM_CHAR :
+			switch (wParam)
+			{
+				case 'a':
+				case 'A':
+					grbAnimate = !grbAnimate;
+					break;
+
+				case 'l':
+				case 'L':
+					grbLight = !grbLight;
+					break;
+			}
+			break;
 			
 		case WM_CLOSE :
 			DestroyWindow(hwnd);
@@ -256,7 +271,6 @@ void Initialize()
 	// function declaration
 	void Resize(int, int);
 	void Uninitialize(void);
-	bool LoadGLTexture(GLuint*, TCHAR[]);
 	
 	//variable declarations
 	PIXELFORMATDESCRIPTOR grpfd;
@@ -316,8 +330,6 @@ void Initialize()
 		grghdc = NULL;
 	}
 
-
-	fprintf(grgpFile, "\n test");
 	/********* Shader Code *********/
 
 	// create shader
@@ -328,13 +340,25 @@ void Initialize()
 		"#version 450 core" \
 		"\n" \
 		"in vec4 vPosition;" \
-		"in vec2 vTexCoord;" \
-		"uniform mat4 u_mvpMatrix;" \
-		"out vec2 out_texcoord;" \
+		"in vec3 vNormal;" \
+		"uniform mat4 u_model_view_matrix;" \
+		"uniform mat4 u_projection_matrix;" \
+		"uniform int u_l_key_pressed;" \
+		"uniform vec3 u_ld;" \
+		"uniform vec3 u_kd;" \
+		"uniform vec4 u_light_position;" \
+		"out vec3 diffuse_light;" \
 		"void main(void)" \
 		"{" \
-		"gl_Position = u_mvpMatrix * vPosition;" \
-		"out_texcoord = vTexCoord;" \
+			"if(u_l_key_pressed == 1)" \
+			"{" \
+			"vec4 eye_coordinates = u_model_view_matrix * vPosition;" \
+			"mat3 normal_matrix = mat3(transpose(inverse(u_model_view_matrix)));" \
+			"vec3 t_norm = normalize(normal_matrix * vNormal);" \
+			"vec3 s = normalize(vec3(u_light_position - eye_coordinates));" \
+			"diffuse_light = u_ld * u_kd * max(dot(s, t_norm), 0.0);" \
+			"}" \
+		"gl_Position = u_projection_matrix * u_model_view_matrix * vPosition;" \
 		"}";
 	
 	glShaderSource(grgVertexShaderObject, 1, (const GLchar **) &grvertexShaderSourceCode, NULL);
@@ -359,9 +383,10 @@ void Initialize()
 				glGetShaderInfoLog(grgVertexShaderObject, griInfoLength, &grwritten, grszInfoLog);
 				fprintf(grgpFile, "\n Vertex Shader Compilation Log : %s", grszInfoLog);
 				free(grszInfoLog);
-				Uninitialize();
+				
 			}
 		}
+		Uninitialize();
 	}
 
 	////// Fragment Shader
@@ -371,12 +396,21 @@ void Initialize()
 	const GLchar* grfragmentShaderSourceCode =
 		"#version 450 core" \
 		"\n" \
-		"in vec2 out_texcoord;"
-		"uniform sampler2D u_texture_sampler;" \
+		"vec4 color;" \
+		"in vec3 diffuse_light;" \
+		"uniform int u_l_key_pressed;" \
 		"out vec4 FragColor;" \
 		"void main(void)" \
 		"{" \
-		"FragColor = texture(u_texture_sampler, out_texcoord);" \
+		"if(u_l_key_pressed == 1)" \
+		"{" \
+			"color = vec4(diffuse_light, 1);" \
+		"}" \
+		"else" \
+		"{" \
+			"color = vec4(1.0, 1.0, 1.0, 1.0);"	\
+		"}" \
+		"FragColor = color;" \
 		"}";
 
 	glShaderSource(grgFragmentShadeerObject, 1, (const GLchar **) &grfragmentShaderSourceCode, NULL);
@@ -397,9 +431,10 @@ void Initialize()
 				glGetShaderInfoLog(grgFragmentShadeerObject, griInfoLength, &grwritten, grszInfoLog);
 				fprintf(grgpFile, "\n Fragment Shader Compilation Log : %s", grszInfoLog);
 				free(grszInfoLog);
-				Uninitialize();
+				
 			}
 		}
+		Uninitialize();
 	}
 
 	//****** Shader Program *****//
@@ -414,7 +449,7 @@ void Initialize()
 
 	// pre-link our attribute enum with shader's attributes
 	glBindAttribLocation(grgShaderProgramObject, GR_ATTRIBUTE_POSITION, "vPosition");
-	glBindAttribLocation(grgShaderProgramObject, GR_ATTRIBUTE_TEXCOORD, "vTexCoord");
+	glBindAttribLocation(grgShaderProgramObject, GR_ATTRIBUTE_NORMAL, "vNormal");
 
 	// link shader
 	glLinkProgram(grgShaderProgramObject);
@@ -437,46 +472,14 @@ void Initialize()
 		}
 	}
 
-	// set unifrom attributes in shaders
-	grgMvpMatrixUniform = glGetUniformLocation(grgShaderProgramObject, "u_mvpMatrix");
-	grgtextureSamplerUniform = glGetUniformLocation(grgShaderProgramObject, "u_texture_sampler");
+	grgModelViewMatrixUniform = glGetUniformLocation(grgShaderProgramObject, "u_model_view_matrix");
+	grgProjectionMatrixUniform = glGetUniformLocation(grgShaderProgramObject, "u_projection_matrix");
+	grgLKeyPressedUniform = glGetUniformLocation(grgShaderProgramObject, "u_l_key_pressed");
+	grgLdUniform = glGetUniformLocation(grgShaderProgramObject, "u_ld");
+	grgKdUniform = glGetUniformLocation(grgShaderProgramObject, "u_kd");
+	grgLightPositionUniform = glGetUniformLocation(grgShaderProgramObject, "u_light_position");
 
-	const GLfloat grpyramidVertices[] =
-	{
-		0.0f, 1.0f, 0.0f,
-		-1.0f, -1.0f, 1.0f,
-		1.0f, -1.0f, 1.0f,
-								//right face
-		0.0f, 1.0f, 0.0f,
-		1.0f, -1.0f, -1.0f,
-		1.0f, -1.0f, 1.0f,
-								// back face
-		0.0f, 1.0f, 0.0f,
-		-1.0f, -1.0f, -1.0f,
-		1.0f, -1.0f, -1.0f,
-								// left face
-		0.0f, 1.0f, 0.0f,
-		-1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f, 1.0f
-	};
-	const GLfloat grpyramidTexCoords[] =
-	{
-		0.5f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
 
-		0.5f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-
-		0.5f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-
-		0.5f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-	};
 	const GLfloat grcubeVertices[] =
 	{
 											// front face
@@ -510,65 +513,42 @@ void Initialize()
 		-1.0f, -1.0f, 1.0f,
 		1.0f, -1.0f, 1.0f
 	};
-	const GLfloat grcubeTexCoords[] =		
+	
+	const GLfloat grcubeNormals[] =		
 	{
-		0.0f, 0.0f,					// one color for single surface 
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,					// one normal for single surface 
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
 
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
 
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
+		0.0f, 0.0f, -1.0f,
+		0.0f, 0.0f, -1.0f,
+		0.0f, 0.0f, -1.0f,
+		0.0f, 0.0f, -1.0f,
 
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
+		-1.0f, 0.0f, 0.0f,
+		-1.0f, 0.0f, 0.0f,
+		-1.0f, 0.0f, 0.0f,
+		-1.0f, 0.0f, 0.0f,
 
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
 
-		1.0f, 0.0f,
-		0.0f, 0.0f,
-		0.0f, 1.0f,
-		1.0f, 1.0f,
+		0.0f, -1.0f, 0.0f,
+		0.0f, -1.0f, 0.0f,
+		0.0f, -1.0f, 0.0f,
+		0.0f, -1.0f, 0.0f,
 	};
+	
 
-	glGenVertexArrays(1, &grgVao_pyramid);
-	glBindVertexArray(grgVao_pyramid);
-
-	glGenBuffers(1, &grgVbo_position_pyramid);
-	glBindBuffer(GL_ARRAY_BUFFER, grgVbo_position_pyramid);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(grpyramidVertices), grpyramidVertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(GR_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-
-	glEnableVertexAttribArray(GR_ATTRIBUTE_POSITION);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// texture
-	glGenBuffers(1, &grgVbo_texture_pyramid);
-	glBindBuffer(GL_ARRAY_BUFFER, grgVbo_texture_pyramid);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(grpyramidTexCoords), grpyramidTexCoords, GL_STATIC_DRAW);
-	glVertexAttribPointer(GR_ATTRIBUTE_TEXCOORD, 2, GL_FLOAT, GL_FALSE, 0, NULL);						// 2nd param is 2 because texutre has only S and T i.e 2 params
-	glEnableVertexAttribArray(GR_ATTRIBUTE_TEXCOORD);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(0);
-
-
-
-	//** initialize vao_square **//
+	//** initialize vao_cube**//
 	glGenVertexArrays(1, &grgVao_cube);
 	glBindVertexArray(grgVao_cube);
 
@@ -579,12 +559,12 @@ void Initialize()
 	glEnableVertexAttribArray(GR_ATTRIBUTE_POSITION);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// color for square
-	glGenBuffers(1, &grgVbo_position_cube);
-	glBindBuffer(GL_ARRAY_BUFFER, grgVbo_position_cube);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(grcubeTexCoords), grcubeTexCoords, GL_STATIC_DRAW);
-	glVertexAttribPointer(GR_ATTRIBUTE_TEXCOORD, 2, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray(GR_ATTRIBUTE_TEXCOORD);
+	// normal for cube
+	glGenBuffers(1, &grgVbo_normal_cube);
+	glBindBuffer(GL_ARRAY_BUFFER, grgVbo_normal_cube);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(grcubeNormals), grcubeNormals, GL_STATIC_DRAW);
+	glVertexAttribPointer(GR_ATTRIBUTE_NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(GR_ATTRIBUTE_NORMAL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindVertexArray(0);
@@ -596,53 +576,17 @@ void Initialize()
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-	LoadGLTexture(&grstone_texture, MAKEINTRESOURCE(STONE_BITMAP));
-	LoadGLTexture(&grkundali_texture, MAKEINTRESOURCE(KUNDALI_BITMAP));
-
-	// enable texture
-	glEnable(GL_TEXTURE_2D);
-
 	// set clearcolor
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// initialize boolean variables
+	grbAnimate = false;
+	grbLight = false;
 
 	grgPerspectiveProjectionMatrix = mat4::identity();
 	
 	// warm-up call to resize
 	Resize(WIN_WIDTH, WIN_HEIGHT);
-}
-
-bool LoadGLTexture(GLuint* texture, TCHAR resourceID[])
-{
-	// variable declarations
-	bool bResult = false;
-	HBITMAP hBitmap = NULL;
-	BITMAP bmp;
-
-	//code
-	// OS dependent code starts from here
-	hBitmap = (HBITMAP)LoadImage(GetModuleHandle(NULL), resourceID, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);		// cx and cy  is 0,0 for bitmap img, for icon, give width and height
-	if (hBitmap)
-	{
-		bResult = true;
-		GetObject(hBitmap, sizeof(bmp), &bmp);
-
-		// from here starts OpenGL actual code
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glGenTextures(1, texture);
-		glBindTexture(GL_TEXTURE_2D, *texture);
-		// setting of texture parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);		// MAG - Magnification
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);				// MIN - Minification
-		
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bmp.bmWidth, bmp.bmHeight, 0, GL_BGR, GL_UNSIGNED_BYTE, bmp.bmBits);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		DeleteObject(hBitmap);
-
-	}
-
-	return(bResult);
-
 }
 
 void Resize(int width, int height)
@@ -670,58 +614,50 @@ void Display(void)
 
 	// OpenGL drawing code will start here
 	mat4 grmodelViewMatrix = mat4::identity();
-	mat4 grmodelViewProjectionMatrix = mat4::identity();
+	mat4 grProjectionMatrix = mat4::identity();
 	mat4 grrotateMatrix = mat4::identity();
 	mat4 grtranslateMatrix = mat4::identity();
 	mat4 grscaleMatrix = mat4::identity();
 
-	#pragma region pyramid
-	//////////////// Triangle //////////////
-	grtranslateMatrix = vmath::translate(-1.5f, 0.0f, -6.0f);
-	grrotateMatrix = vmath::rotate(grgAnglePyramid, 0.0f, 1.0f, 0.0f);
-	grmodelViewMatrix = grtranslateMatrix * grrotateMatrix;
-
-	// multiply modelview and orthographic matrix to get modelviewprojectionmatrix
-	grmodelViewProjectionMatrix = grgPerspectiveProjectionMatrix * grmodelViewMatrix;
-
-	glUniformMatrix4fv(grgMvpMatrixUniform, 1, GL_FALSE, grmodelViewProjectionMatrix);
-	
-	// apply texture to pyramid
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, grstone_texture);
-	glUniform1i(grgtextureSamplerUniform, 0);
-	
-
-	// bind vao
-	glBindVertexArray(grgVao_pyramid);
-	glDrawArrays(GL_TRIANGLES, 0, 12);
-
-	// unbind vao
-	glBindVertexArray(0);
-	#pragma endregion pyramid
-
-
 	#pragma region cube
-	grtranslateMatrix = mat4::identity();
-	grrotateMatrix = mat4::identity();
-	grmodelViewMatrix = mat4::identity();
-	grmodelViewProjectionMatrix = mat4::identity();
 
-	grtranslateMatrix = vmath::translate(1.5f, 0.0f, -6.0f);
-	grrotateMatrix = vmath::rotate(grgAngleCube, 1.0f, 0.0f, 0.0f);
-	grscaleMatrix = vmath::scale(0.75f, 0.75f, 0.75f);
+	if (grbAnimate == true)
+	{
+		grtranslateMatrix = vmath::translate(0.0f, 0.0f, -6.0f);
+		grscaleMatrix = vmath::scale(0.75f, 0.75f, 0.75f);
+		grrotateMatrix = vmath::rotate(grgAngleCube, 1.0f, 0.0f, 0.0f);
+		grrotateMatrix = grrotateMatrix * vmath::rotate(grgAngleCube, 0.0f, 1.0f, 0.0f);
+		grrotateMatrix = grrotateMatrix * vmath::rotate(grgAngleCube, 0.0f, 0.0f, 1.0f);
+		
+		grmodelViewMatrix = grtranslateMatrix * grscaleMatrix * grrotateMatrix;
+		grProjectionMatrix = grgPerspectiveProjectionMatrix;
+	}
+	else
+	{
+		grtranslateMatrix = vmath::translate(0.0f, 0.0f, -6.0f);
+		grscaleMatrix = vmath::scale(0.75f, 0.75f, 0.75f);
+		grmodelViewMatrix = grtranslateMatrix  * grscaleMatrix;
+		grProjectionMatrix = grgPerspectiveProjectionMatrix;
+	}
 
+	if (grbLight == true)
+	{
+		// enable lighting
+		glUniform1i(grgLKeyPressedUniform, 1);
+		glUniform3f(grgLdUniform, 1.0f, 1.0f, 1.0f);
+		glUniform3f(grgKdUniform, 0.5f, 0.5f, 0.5f);
+		
+		GLfloat grlightPosition[] = {0.0f, 0.0f, 2.0f, 1.0f}; // x, y, z, w (w is 1 suggests that is is a positional light eg. table lamp (whereas w being 0.0 suggests directional light rg. sun))
+		glUniform4fv(grgLightPositionUniform, 1, (GLfloat *) grlightPosition);
+	}
+	else
+	{
+		glUniform1i(grgLKeyPressedUniform, 0);
+	}
 
-	grmodelViewMatrix = grtranslateMatrix * grrotateMatrix * grscaleMatrix;
-	grmodelViewProjectionMatrix = grgPerspectiveProjectionMatrix * grmodelViewMatrix;
+	glUniformMatrix4fv(grgModelViewMatrixUniform, 1, GL_FALSE, grmodelViewMatrix);
+	glUniformMatrix4fv(grgProjectionMatrixUniform, 1, GL_FALSE, grProjectionMatrix);
 
-	glUniformMatrix4fv(grgMvpMatrixUniform, 1, GL_FALSE, grmodelViewProjectionMatrix);
-	
-	// apply texture to cube
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, grkundali_texture);
-	glUniform1i(grgtextureSamplerUniform, 0);
-	
 	// bind vao of square
 	glBindVertexArray(grgVao_cube);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);												// In Programmable pipeline, there's no GL_QUADS, hence we have used GL_TRIANGLE_FAN
@@ -743,10 +679,6 @@ void Display(void)
 
 void Update(void)
 {
-	grgAnglePyramid = grgAnglePyramid + 0.1f;
-	if (grgAnglePyramid >= 360.0f)
-		grgAnglePyramid = 0.0f;
-
 	grgAngleCube = grgAngleCube + 0.1f;
 	if (grgAngleCube >= 360.0f)
 		grgAngleCube = 0.0f;
@@ -766,13 +698,7 @@ void Uninitialize(void)
 		ShowCursor(true);
 		
 	}
-
-	// delete triangle vao and vbo
-	if (grgVao_pyramid)
-	{
-		glDeleteVertexArrays(1, &grgVao_pyramid);
-		grgVao_pyramid = 0;
-	}
+	//  delete vbo
 
 	if (grgVbo_position_cube)
 	{
@@ -780,11 +706,6 @@ void Uninitialize(void)
 		grgVbo_position_cube = 0;
 	}
 
-	if (grgVbo_texture_pyramid)
-	{
-		glDeleteBuffers(1, &grgVbo_texture_pyramid);
-		grgVbo_texture_pyramid = 0;
-	}
 	// delete square vao and vbo
 	if (grgVao_cube)
 	{
@@ -796,22 +717,12 @@ void Uninitialize(void)
 		glDeleteBuffers(1, &grgVbo_position_cube);
 		grgVbo_position_cube = 0;
 	}
-	if (grgVbo_texture_cube)
+	if (grgVbo_normal_cube)
 	{
-		glDeleteBuffers(1, &grgVbo_texture_cube);
-		grgVbo_texture_cube = 0;
+		glDeleteBuffers(1, &grgVbo_normal_cube);
+		grgVbo_normal_cube = 0;
 	}
-
-	if (grstone_texture)
-	{
-		glDeleteTextures(1, &grstone_texture);
-		grstone_texture = 0;
-	}
-	if (grkundali_texture)
-	{
-		glDeleteTextures(1, &grkundali_texture);
-		grkundali_texture = 0;
-	}
+	
 
 	// free shader objects
 	// detach vertex shader
