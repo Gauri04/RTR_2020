@@ -343,8 +343,8 @@ GLuint LoadBitmapAsTexture(const char * path)
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);		// MAG - Magnification
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);				// MIN - Minification
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, imageData); // 3 is GL_RGBA 
-
+	//gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, imageData); // 3 is GL_RGBA 
+	// instead of gluBuild2DMipmaps, here use glTexImage2D and glGenerateMipmaps as its is from windows
 	// free memory used by soil
 	SOIL_free_image_data(imageData);
 	return textureId;
