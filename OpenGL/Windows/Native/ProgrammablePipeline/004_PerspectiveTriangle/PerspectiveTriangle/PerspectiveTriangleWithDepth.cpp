@@ -528,6 +528,7 @@ void Uninitialize(void)
 		glDeleteBuffers(1, &grgVbo_position);
 		grgVbo_position = 0;
 	}
+	
 	// free shader objects
 	// detach vertex shader
 	glDetachShader(grgShaderProgramObject, grgVertexShaderObject);

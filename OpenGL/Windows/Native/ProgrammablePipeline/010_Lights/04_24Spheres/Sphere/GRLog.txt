@@ -1,0 +1,14 @@
+Log file created successfully. 
+ Program started successfully
+ **** Logs ***** 
+
+ left = 0.000000, right = 130.666672, top = 0.000000, bottom = 140.250000
+ left = 0.000000, right = 133.333328, top = 0.000000, bottom = 150.000000
+ left = 0.000000, right = 256.000000, top = 0.000000, bottom = 216.000000
+ left = 0.000000, right = 130.666672, top = 0.000000, bottom = 140.250000
+ left = 0.000000, right = 133.333328, top = 0.000000, bottom = 150.000000
+ left = 0.000000, right = 256.000000, top = 0.000000, bottom = 216.000000
+ left = 0.000000, right = 130.666672, top = 0.000000, bottom = 140.250000
+ **** End ****
+Log File closed successfully. 
+ Program terminated successfully

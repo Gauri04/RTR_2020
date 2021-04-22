@@ -511,7 +511,7 @@ void Draw24Spheres()
 		0.633,
 		0.727811,
 		0.633,
-		1.0f,
+		1.0f
 	};
 
 	GLfloat grmeterialShinyness1 = 0.6 * 128;
@@ -522,7 +522,7 @@ void Draw24Spheres()
 		0.135, 
 		0.2225, 
 		0.1575, 
-		1.0f,  
+		1.0f  
 
 	};
 
@@ -667,7 +667,7 @@ void Draw24Spheres()
 		0.780392, // r
 		0.568627, // g
 		0.113725, // b
-		1.0f,     // a
+		1.0f     // a
 	};
 
 	GLfloat grmaterialSpecular7[] =
@@ -830,7 +830,7 @@ void Draw24Spheres()
 		0.01, // r
 		0.01, // g
 		0.01, // b
-		1.0f, // a
+		1.0f // a
 	};
 
 	GLfloat grmaterialSpecular13[] =
