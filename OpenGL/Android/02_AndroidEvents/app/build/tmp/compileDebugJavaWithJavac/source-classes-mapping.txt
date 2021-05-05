@@ -1,0 +1,6 @@
+com/example/androidevents/BuildConfig.java
+ com.example.androidevents.BuildConfig
+com/example/androidevents/MyView.java
+ com.example.androidevents.MyView
+com/example/androidevents/MainActivity.java
+ com.example.androidevents.MainActivity

@@ -1,0 +1,4 @@
+com/example/myhelloworld/MainActivity.java
+ com.example.myhelloworld.MainActivity
+com/example/myhelloworld/BuildConfig.java
+ com.example.myhelloworld.BuildConfig
