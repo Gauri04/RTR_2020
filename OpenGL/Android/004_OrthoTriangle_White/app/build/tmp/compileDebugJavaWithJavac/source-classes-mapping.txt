@@ -1,0 +1,8 @@
+com/example/orthotrianglewhite/GLESView.java
+ com.example.orthotrianglewhite.GLESView
+com/example/orthotrianglewhite/MainActivity.java
+ com.example.orthotrianglewhite.MainActivity
+com/example/orthotrianglewhite/GLESMacros.java
+ com.example.orthotrianglewhite.GLESMacros
+com/example/orthotrianglewhite/BuildConfig.java
+ com.example.orthotrianglewhite.BuildConfig

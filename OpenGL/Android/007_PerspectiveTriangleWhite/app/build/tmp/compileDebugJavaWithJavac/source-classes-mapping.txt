@@ -1,0 +1,8 @@
+com/example/perspectivetrianglewhite/GLESView.java
+ com.example.perspectivetrianglewhite.GLESView
+com/example/perspectivetrianglewhite/BuildConfig.java
+ com.example.perspectivetrianglewhite.BuildConfig
+com/example/perspectivetrianglewhite/MainActivity.java
+ com.example.perspectivetrianglewhite.MainActivity
+com/example/perspectivetrianglewhite/GLESMacros.java
+ com.example.perspectivetrianglewhite.GLESMacros

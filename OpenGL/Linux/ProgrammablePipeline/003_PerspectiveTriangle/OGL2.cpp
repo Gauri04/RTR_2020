@@ -11,6 +11,7 @@
 #include<GL/gl.h>		// for opengl api's 
 #include<GL/glx.h>		// for glx apis
 #include"vmath.h"
+#include"GRStack.h"
 
 
 using namespace std;

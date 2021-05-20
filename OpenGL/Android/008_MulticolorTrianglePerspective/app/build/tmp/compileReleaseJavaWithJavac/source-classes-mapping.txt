@@ -1,0 +1,8 @@
+com/example/multicolortriangleperspective/GLESMacros.java
+ com.example.multicolortriangleperspective.GLESMacros
+com/example/multicolortriangleperspective/BuildConfig.java
+ com.example.multicolortriangleperspective.BuildConfig
+com/example/multicolortriangleperspective/MainActivity.java
+ com.example.multicolortriangleperspective.MainActivity
+com/example/multicolortriangleperspective/GLESView.java
+ com.example.multicolortriangleperspective.GLESView

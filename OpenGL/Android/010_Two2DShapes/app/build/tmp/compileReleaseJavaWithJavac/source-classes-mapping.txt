@@ -1,0 +1,8 @@
+com/example/twotwodshapes/MainActivity.java
+ com.example.twotwodshapes.MainActivity
+com/example/twotwodshapes/GLESMacros.java
+ com.example.twotwodshapes.GLESMacros
+com/example/twotwodshapes/BuildConfig.java
+ com.example.twotwodshapes.BuildConfig
+com/example/twotwodshapes/GLESView.java
+ com.example.twotwodshapes.GLESView

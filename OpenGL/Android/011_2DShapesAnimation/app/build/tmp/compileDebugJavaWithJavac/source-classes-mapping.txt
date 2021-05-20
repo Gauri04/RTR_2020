@@ -1,0 +1,8 @@
+com/example/twodshapesanimation/MainActivity.java
+ com.example.twodshapesanimation.MainActivity
+com/example/twodshapesanimation/GLESMacros.java
+ com.example.twodshapesanimation.GLESMacros
+com/example/twodshapesanimation/GLESView.java
+ com.example.twodshapesanimation.GLESView
+com/example/twodshapesanimation/BuildConfig.java
+ com.example.twodshapesanimation.BuildConfig

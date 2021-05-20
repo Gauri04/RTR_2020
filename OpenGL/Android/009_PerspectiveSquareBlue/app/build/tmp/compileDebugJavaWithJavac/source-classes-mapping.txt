@@ -1,0 +1,8 @@
+com/example/perspectivesquare/GLESView.java
+ com.example.perspectivesquare.GLESView
+com/example/perspectivesquare/MainActivity.java
+ com.example.perspectivesquare.MainActivity
+com/example/perspectivesquare/BuildConfig.java
+ com.example.perspectivesquare.BuildConfig
+com/example/perspectivesquare/GLESMacros.java
+ com.example.perspectivesquare.GLESMacros
