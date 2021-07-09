@@ -1,0 +1,8 @@
+com/example/checkerboard/BuildConfig.java
+ com.example.checkerboard.BuildConfig
+com/example/checkerboard/GLESMacros.java
+ com.example.checkerboard.GLESMacros
+com/example/checkerboard/MainActivity.java
+ com.example.checkerboard.MainActivity
+com/example/checkerboard/GLESView.java
+ com.example.checkerboard.GLESView
