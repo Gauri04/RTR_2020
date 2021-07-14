@@ -1,8 +1,10 @@
-com/example/threedshapesanimation/BuildConfig.java
- com.example.threedshapesanimation.BuildConfig
-com/example/threedshapesanimation/GLESView.java
- com.example.threedshapesanimation.GLESView
-com/example/threedshapesanimation/GLESMacros.java
- com.example.threedshapesanimation.GLESMacros
-com/example/threedshapesanimation/MainActivity.java
- com.example.threedshapesanimation.MainActivity
+com/example/lightspyramid/Light.java
+ com.example.lightspyramid.Light
+com/example/lightspyramid/BuildConfig.java
+ com.example.lightspyramid.BuildConfig
+com/example/lightspyramid/GLESMacros.java
+ com.example.lightspyramid.GLESMacros
+com/example/lightspyramid/MainActivity.java
+ com.example.lightspyramid.MainActivity
+com/example/lightspyramid/GLESView.java
+ com.example.lightspyramid.GLESView

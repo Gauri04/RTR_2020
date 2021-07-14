@@ -5,4 +5,10 @@ public class Light {
     float lightDiffuseColor[] = new float[4];
     float lightSpecularColor[] = new float[4];
     float lightPosition[] = new float[4];
+
+    public Light()
+    {
+        // empty constructor
+    }
+
 }

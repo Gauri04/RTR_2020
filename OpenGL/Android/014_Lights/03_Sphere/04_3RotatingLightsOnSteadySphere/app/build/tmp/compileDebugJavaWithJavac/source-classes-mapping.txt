@@ -1,0 +1,12 @@
+com/example/threelightsonsteadysphere/Sphere.java
+ com.example.threelightsonsteadysphere.Sphere
+com/example/threelightsonsteadysphere/GLESMacros.java
+ com.example.threelightsonsteadysphere.GLESMacros
+com/example/threelightsonsteadysphere/MainActivity.java
+ com.example.threelightsonsteadysphere.MainActivity
+com/example/threelightsonsteadysphere/BuildConfig.java
+ com.example.threelightsonsteadysphere.BuildConfig
+com/example/threelightsonsteadysphere/GLESView.java
+ com.example.threelightsonsteadysphere.GLESView
+com/example/threelightsonsteadysphere/Light.java
+ com.example.threelightsonsteadysphere.Light

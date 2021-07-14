@@ -1,0 +1,10 @@
+com/example/diffusecube/Light.java
+ com.example.diffusecube.Light
+com/example/diffusecube/BuildConfig.java
+ com.example.diffusecube.BuildConfig
+com/example/diffusecube/GLESMacros.java
+ com.example.diffusecube.GLESMacros
+com/example/diffusecube/MainActivity.java
+ com.example.diffusecube.MainActivity
+com/example/diffusecube/GLESView.java
+ com.example.diffusecube.GLESView

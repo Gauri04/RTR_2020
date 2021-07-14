@@ -12,25 +12,9 @@
         errorLine1="   View.SYSTEM_UI_FLAG_IMMERSIVE |"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\java\com\example\threedshapesanimation\MainActivity.java"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\java\com\example\lightspyramid\MainActivity.java"
             line="18"
             column="4"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        severity="Warning"
-        message="A newer version of com.google.android.material:material than 1.1.0 is available: 1.3.0"
-        category="Correctness"
-        priority="4"
-        summary="Obsolete Gradle Dependency"
-        explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    implementation &apos;com.google.android.material:material:1.1.0&apos;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\build.gradle"
-            line="29"
-            column="5"/>
     </issue>
 
     <issue
@@ -44,7 +28,7 @@
         errorLine1="    testImplementation &apos;junit:junit:4.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\build.gradle"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\build.gradle"
             line="31"
             column="5"/>
     </issue>
@@ -62,7 +46,7 @@
         errorLine1="    &lt;application"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\AndroidManifest.xml"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\AndroidManifest.xml"
             line="5"
             column="6"/>
     </issue>
@@ -80,7 +64,7 @@
         errorLine1="    &lt;application"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\AndroidManifest.xml"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\AndroidManifest.xml"
             line="5"
             column="6"/>
     </issue>
@@ -96,7 +80,7 @@
         errorLine1="&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\layout\activity_main.xml"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\layout\activity_main.xml"
             line="2"
             column="1"/>
     </issue>
@@ -112,19 +96,19 @@
         errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml"
             line="2"
             column="1"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-hdpi\ic_launcher.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-hdpi\ic_launcher.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-mdpi\ic_launcher.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-mdpi\ic_launcher.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xhdpi\ic_launcher.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xhdpi\ic_launcher.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxhdpi\ic_launcher.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxhdpi\ic_launcher.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxxhdpi\ic_launcher.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxxhdpi\ic_launcher.png"/>
     </issue>
 
     <issue
@@ -138,7 +122,7 @@
         errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\drawable\ic_launcher_background.xml"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\drawable\ic_launcher_background.xml"
             line="2"
             column="1"/>
     </issue>
@@ -154,7 +138,7 @@
         errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\drawable-v24\ic_launcher_foreground.xml"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\drawable-v24\ic_launcher_foreground.xml"
             line="1"
             column="1"/>
     </issue>
@@ -170,19 +154,19 @@
         errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
             line="2"
             column="1"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
     </issue>
 
     <issue
@@ -194,7 +178,7 @@
         summary="The launcher icon shape should use a distinct silhouette"
         explanation="According to the Android Design Guide (https://material.io/design/iconography/) your launcher icons should &quot;use a distinct silhouette&quot;, a &quot;three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.&quot;&#xA;&#xA;The unique silhouette implies that your launcher icon should not be a filled square.">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-hdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-hdpi\rfc_icon.png"/>
     </issue>
 
     <issue
@@ -206,7 +190,7 @@
         summary="The launcher icon shape should use a distinct silhouette"
         explanation="According to the Android Design Guide (https://material.io/design/iconography/) your launcher icons should &quot;use a distinct silhouette&quot;, a &quot;three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.&quot;&#xA;&#xA;The unique silhouette implies that your launcher icon should not be a filled square.">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-mdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-mdpi\rfc_icon.png"/>
     </issue>
 
     <issue
@@ -218,7 +202,7 @@
         summary="The launcher icon shape should use a distinct silhouette"
         explanation="According to the Android Design Guide (https://material.io/design/iconography/) your launcher icons should &quot;use a distinct silhouette&quot;, a &quot;three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.&quot;&#xA;&#xA;The unique silhouette implies that your launcher icon should not be a filled square.">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xhdpi\rfc_icon.png"/>
     </issue>
 
     <issue
@@ -230,7 +214,7 @@
         summary="The launcher icon shape should use a distinct silhouette"
         explanation="According to the Android Design Guide (https://material.io/design/iconography/) your launcher icons should &quot;use a distinct silhouette&quot;, a &quot;three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.&quot;&#xA;&#xA;The unique silhouette implies that your launcher icon should not be a filled square.">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxhdpi\rfc_icon.png"/>
     </issue>
 
     <issue
@@ -242,7 +226,7 @@
         summary="The launcher icon shape should use a distinct silhouette"
         explanation="According to the Android Design Guide (https://material.io/design/iconography/) your launcher icons should &quot;use a distinct silhouette&quot;, a &quot;three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.&quot;&#xA;&#xA;The unique silhouette implies that your launcher icon should not be a filled square.">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxxhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxxhdpi\rfc_icon.png"/>
     </issue>
 
     <issue
@@ -254,15 +238,15 @@
         summary="Icon density-independent size validation"
         explanation="Checks the all icons which are provided in multiple densities, all compute to roughly the same density-independent pixel (`dip`) size. This catches errors where images are either placed in the wrong folder, or icons are changed to new sizes but some folders are forgotten.">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxxhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxxhdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxhdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xhdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-hdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-hdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-mdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-mdpi\rfc_icon.png"/>
     </issue>
 
     <issue
@@ -274,15 +258,15 @@
         summary="Identical bitmaps across various configurations"
         explanation="If an icon is provided under different configuration parameters such as `drawable-hdpi` or `-v11`, they should typically be different. This detector catches cases where the same icon is provided in different configuration folder which is usually not intentional.">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxxhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxxhdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xxhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xxhdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-xhdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-xhdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-mdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-mdpi\rfc_icon.png"/>
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\res\mipmap-hdpi\rfc_icon.png"/>
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\res\mipmap-hdpi\rfc_icon.png"/>
     </issue>
 
     <issue
@@ -296,8 +280,8 @@
         errorLine1=" public boolean onTouchEvent(MotionEvent event)"
         errorLine2="                ~~~~~~~~~~~~">
         <location
-            file="E:\git\RTR_2020\OpenGL\Android\012_3DAnimation\app\src\main\java\com\example\threedshapesanimation\GLESView.java"
-            line="92"
+            file="E:\git\RTR_2020\OpenGL\Android\014_Lights\01_TwoLightsOnRotatingPyramid\app\src\main\java\com\example\lightspyramid\GLESView.java"
+            line="112"
             column="17"/>
     </issue>
 

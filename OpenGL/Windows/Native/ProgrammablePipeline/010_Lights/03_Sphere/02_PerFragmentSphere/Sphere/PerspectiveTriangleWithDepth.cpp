@@ -442,10 +442,10 @@ void Initialize()
 		"vec3 normalized_transform_normal = normalize(transformed_normal);" \
 		"vec3 normalized_light_direction = normalize(light_direction);" \
 		"vec3 normalized_view_vector = normalize(view_vector);"
-		"vec3 reflection_vector = reflect(-light_direction, transformed_normal);" \
+		"vec3 reflection_vector = reflect(-normalized_light_direction, normalized_transform_normal);" \
 		"vec3 ambient = u_la * u_ka;" \
-		"vec3 diffuse = u_ld * u_kd * max(dot(light_direction, transformed_normal), 0.0);" \
-		"vec3 specular = u_ls * u_ks * pow(max(dot(reflection_vector, view_vector), 0.0), u_material_shinyness);" \
+		"vec3 diffuse = u_ld * u_kd * max(dot(normalized_light_direction, normalized_transform_normal), 0.0);" \
+		"vec3 specular = u_ls * u_ks * pow(max(dot(reflection_vector, normalized_view_vector), 0.0), u_material_shinyness);" \
 		"fong_ads_light = ambient + diffuse + specular;" \
 		"}" \
 		"else" \
